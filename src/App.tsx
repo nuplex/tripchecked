@@ -752,8 +752,12 @@ function Home({
     }
   }
 
+  const containerStyle: CSS = {
+    margin: "1%"
+  };
+
   return (
-    <div>
+    <div style={containerStyle}>
       <Header text={$TRIP.name} type={'h1'}/>
       <DateRange
         start={$TRIP.start}
