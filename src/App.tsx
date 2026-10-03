@@ -119,13 +119,11 @@ function getDayFromTrip(dateString?: string): Day {
   const dayM = isTodayWithinTrip() ? moment(dateString) : moment($TRIP.start);
   let day;
   let i = 0;
-  const days = Object.keys($TRIP.days);
+  const days = Object.values($TRIP.days);
   while (i < days.length) {
-    const timestamp = days[i];
-    const dateM = moment(timestamp);
-    if (dayM.day === dateM.day) {
-      day = $TRIP.days[parseInt(timestamp)];
-      break;
+    const day = days[i];
+    if (dayM.day === moment(day.day).day) {
+      return day;
     }
     i++;
   }
@@ -134,7 +132,7 @@ function getDayFromTrip(dateString?: string): Day {
     console.warn('Failed to find a day, defaulting to first day.')
   }
 
-  return day ?? getFirstDayTrip();
+  return getFirstDayTrip();
 }
 
 function getDayIndex(day: Day) {
@@ -734,7 +732,6 @@ function Home({
 
   const daysLength = Object.keys($TRIP.days).length;
   const onNextDay = () => {
-    console.log(dayIndex);
     if (dayIndex < daysLength - 1) {
       const newDayIndex = dayIndex + 1;
       const newDay = Object.entries($TRIP.days)[newDayIndex][1];
@@ -768,7 +765,8 @@ function Home({
         size={"14px"}
       />
       <Today shownDay={day}/>
-      {dayIndex > 0 ? <Button label={'Last Day'} type={'nextprev-button'} onClick={onPreviousDay}/> : null}
+      {dayIndex > 0 ? <Button label={'Previous Day'} type={'nextprev-button'} onClick={onPreviousDay}/> : null}
+      <InlineSpace size={4}/>
       {dayIndex < daysLength - 1 ? <Button label={'Next Day'} type={'nextprev-button'} onClick={onNextDay}/> : null}
       <Header text={day.itinerary.locations.join(', ')} type={'h2'}/>
       <TodayAccommodation shownDay={day}/>
