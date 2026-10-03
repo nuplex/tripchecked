@@ -1,0 +1,47 @@
+.nextprev-button {
+    background: #f8f8f8;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.pb--pronunciation {
+    font-size: 12px;
+    color: #333333;
+    font-style: italic;
+    line-height: 12px;
+    margin-top: 0;
+    margin-bottom: 4px;
+}
+
+.pb--term {
+    display: flex;
+    font-size: 24px;
+    font-weight: bold;
+    color: #b54646;
+    line-height: 24px;
+    margin-bottom: 2px;
+}
+
+.pb--translated {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333333;
+    line-height: 18px;
+    margin-top: 2px;
+    margin-bottom: 4px;
+}
+
+.pb--notes {
+    font-size: 10px;
+    line-height: 10px;
+    color: #333333;
+    margin-top: 6px;
+}
+
+.text-button {
+    background: rgba(0,0,0,0);
+    border: none;
+    cursor: pointer;
+}
