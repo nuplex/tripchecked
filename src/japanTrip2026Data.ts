@@ -348,30 +348,6 @@ export const Japan2026TripData: Trip = {
   },
   help: [
     toHelp({
-      name: 'Tips',
-      color: '#3185fc',
-      bits: [
-        toHelpBit({
-          id:'helpbit_tips1',
-          header: 'Train Etiquette',
-          body: [
-            'Talking on metro/subway trains is okay, but keep it very low volume.',
-            'Talking on the Shinkansen is completely fine.',
-            '',
-            'Eating on metro/subway trains is never okay. Drinking sips of a bottled drink is okay sometimes.',
-            'Eating and drinking on the Shinkansen, and some commuter/long distance trains is okay.',
-            '',
-            `Mind your space. Keep your legs together and don't spread your arms out into other's space.`
-          ],
-        }),
-        toHelpBit({
-          id: 'helpbit_tips2',
-          header: 'Trash',
-          body: ['Trash cans are hard to find!', 'You can find trash cans in convenience stores, some metro stations, some malls, and rarely in parks.', 'Hold on to your trash, and always sort correctly.', 'Bottles and cans can be thrown in any bin specially made for them, usually near vending machines.']
-        }),
-      ]
-    }),
-    toHelp({
       name: 'Japanese Pronunciation',
       color: '#23967F',
       bits: [
@@ -413,6 +389,30 @@ export const Japan2026TripData: Trip = {
             "Ningyocho - neen-gyoh-choh",
           ]
         })
+      ]
+    }),
+    toHelp({
+      name: 'Tips',
+      color: '#3185fc',
+      bits: [
+        toHelpBit({
+          id:'helpbit_tips1',
+          header: 'Train Etiquette',
+          body: [
+            'Talking on metro/subway trains is okay, but keep it very low volume.',
+            'Talking on the Shinkansen is completely fine.',
+            '',
+            'Eating on metro/subway trains is never okay. Drinking sips of a bottled drink is okay sometimes.',
+            'Eating and drinking on the Shinkansen, and some commuter/long distance trains is okay.',
+            '',
+            `Mind your space. Keep your legs together and don't spread your arms out into other's space.`
+          ],
+        }),
+        toHelpBit({
+          id: 'helpbit_tips2',
+          header: 'Trash',
+          body: ['Trash cans are hard to find!', 'You can find trash cans in convenience stores, some metro stations, some malls, and rarely in parks.', 'Hold on to your trash, and always sort correctly.', 'Bottles and cans can be thrown in any bin specially made for them, usually near vending machines.']
+        }),
       ]
     }),
     toHelp({

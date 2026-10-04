@@ -1243,7 +1243,7 @@ function Saves({
   }
 
   return (
-    <Section name={'My Saves'} color={COLOR_SAVES}>
+    <Section name={'Your Saves'} color={COLOR_SAVES}>
       {body}
     </Section>
   );
