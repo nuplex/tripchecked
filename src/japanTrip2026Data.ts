@@ -1,4 +1,13 @@
-import {toAccommodation, toDay, toItinerary, toItineraryItem, toPhrase, toSuggestion, type Trip} from "./TripData.ts";
+import {
+  toAccommodation,
+  toDay,
+  toHelp, toHelpBit,
+  toItinerary,
+  toItineraryItem,
+  toPhrase,
+  toSuggestion,
+  type Trip
+} from "./TripData.ts";
 import moment from "moment";
 
 const TOKYO = 'Tokyo';
@@ -148,7 +157,8 @@ export const Japan2026TripData: Trip = {
             thing: 'Imperial Palace & Gardens'
           }),
           toItineraryItem({
-            thing: 'Eat Something'
+            thing: 'Eat Something',
+            canSearch: false
           }),
           toItineraryItem({
             thing: 'Meiji Jingu + Yoyogi Park'
@@ -285,7 +295,59 @@ export const Japan2026TripData: Trip = {
       ]
     }),
   },
-  help: [],
+  help: [
+    toHelp({
+      name: 'Tips',
+      color: '#3185fc',
+      bits: [
+        toHelpBit({
+          header: 'Trash',
+          body: ['Trash cans are hard to find!', 'You can find trash cans in convenience stores, some metro stations, some malls, and rarely in parks.', 'Hold on to your trash, and always sort correctly.', 'Bottles and cans can be thrown in any bin specially made for them, usually near vending machines.']
+        }),
+      ]
+    }),
+    toHelp({
+      name: 'Japanese Pronounciation',
+      color: '#23967F',
+      bits: [
+        toHelpBit({
+          body: [
+            'Japanese is very easy to pronounce! In fact, if you read it like Igbo, its very close to that!',
+            "",
+            "a -> ah like... ah",
+            "e -> ay like in \"bay\"",
+            "i -> ee like in \"bee\"",
+            "u -> oo like in \"moo\"",
+            "o -> oh like... oh",
+            "",
+            "r -> spanish \"r\" or rolled r (but just rolled once)",
+            "y -> like y in yes, never \"ee\" or \"ih\"",
+            "",
+            "things like \"kyo\", \"ryo\", \"gya\" are NOT pronounced \"kiyo\" or \"riyo\". They are pronounced like \"kʰyo\" and \"rʰyo\". So Tokyo is not \"Tokiyo\" its \"Tokhyo\" or just Tokyo.",
+            "",
+            "double letters like \"tt\" or \"cch\" means pause being for saying, like holding your breathe for a split second. So \"motto\" is like \"moh--toh\"",
+            "",
+            "\"su\" in Japanese if not starting a word (so in the middle or end) often is pronounced just as an \"s\"",
+            "Japanese consonants like t,d,j,z,k,g are pronounced the same as in English.",
+            "Japanese words are pronounced exactly as written. There's no hidden tricks like english. So the above guide is the same no matter what you're reading. Pronunciation does not change!"
+          ]
+        }),
+        toHelpBit({
+          header: 'Examples',
+          body: [
+            "Ikebukuro - ee-kay-boo-koo-roh",
+            "Kyoto - kyoh-toh",
+            "Meiji Jingu - may-jee jeen-goo",
+            "Sengakuji - sayn-gah-koo-jee",
+            "Yotsugi - yoh-tsu-gee",
+            "Uguisudani - oo-goo-ee-soo-dah-nee",
+            "Keisei - kay|ee-say|ee or kay-say",
+            "Ningyocho - neen-gyoh-choh",
+          ]
+        })
+      ]
+    })
+  ],
   phrasebook: [
     toPhrase({
       term: 'arigatou gozaimasu',
@@ -414,6 +476,14 @@ export const Japan2026TripData: Trip = {
       tags: ['essential'],
       notes: [],
       nativeScript: 'ちょっと待ってください'
+    }),
+    toPhrase({
+      term: 'gomi',
+      translated: ['trash', 'garbage'],
+      pronunciation: ['goh-mee'],
+      tags: ['service'],
+      notes: [],
+      nativeScript: 'ゴミ'
     }),
   ],
 };

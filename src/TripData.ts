@@ -42,6 +42,7 @@ export type ItineraryItem = {
   time?: string;
   isSuggestion: boolean;
   thing: string | Suggestion;
+  canSearch: boolean;
 };
 
 export type Itinerary = {
@@ -61,13 +62,14 @@ export type HeaderPosition = 'top' | 'left';
 export type HelpBit = {
   header?: string;
   headerPosition?: HeaderPosition;
-  body: string;
+  body: string[];
 };
 
 export type Help = {
   name: string;
   icon?: Icon;
   bits: HelpBit[];
+  color: string;
 };
 
 export type GoTo = {
@@ -147,7 +149,7 @@ export function toHelpBit({
 }:{
   header?: string;
   headerPosition?: HeaderPosition;
-  body: string;
+  body: string[];
 }): HelpBit {
   return {
     header,
@@ -160,15 +162,18 @@ export function toHelp({
   name,
   icon,
   bits,
+  color,
 }:{
   name: string;
   icon?: Icon;
   bits: HelpBit[];
+  color: string;
 }): Help {
   return {
     name,
     icon,
     bits,
+    color,
   }
 }
 
@@ -257,15 +262,18 @@ export function toItineraryItem({
   time,
   thing,
   isSuggestion = false,
+  canSearch = true,
 }:{
   time?: string;
   thing: string | SuggestionId;
   isSuggestion?: boolean;
+  canSearch?: boolean;
 }): ItineraryItem {
   return {
     time,
     isSuggestion,
     thing,
+    canSearch,
   };
 }
 

@@ -3,7 +3,7 @@ import {type CSSProperties, type JSX, useState} from "react";
 import {
   type Accommodation,
   type AccommodationId,
-  type Day, type Phrase,
+  type Day, type Help, type Phrase,
   type Suggestion,
   type SuggestionId,
   type SuggestionType,
@@ -17,7 +17,7 @@ type CSS = Partial<CSSProperties>;
 const pages = ['home'] as const;
 type Page = typeof pages[number];
 
-type HeaderType = 'h1' | 'h2' | 'inline1';
+type HeaderType = 'h1' | 'h2' | 'h3' | 'inline1';
 type TextType = 'bold' | 'small_header' | 'info';
 type ButtonType = 'text-button' | 'standard-button' | 'nextprev-button';
 
@@ -27,10 +27,11 @@ const $TRIP: Trip = Japan2026TripData;
 
 const DATE_FORMAT_MONTH_DAY = "MMM D";
 const DATE_FORMAT_DOTW_DAY = "MMM Do";
+const DATE_FORMAT_COMPARE = "MM/D/YYYY";
 
 const COLOR_PHRASEBOOK_PRIMARY = "#cc5757";
 
-type IconName = 'accommodation' | 'mapLink' | 'number' | 'info' | 'link' | 'view' | 'unview' | 'close' | 'translate'
+type IconName = 'accommodation' | 'mapLink' | 'number' | 'info' | 'link' | 'view' | 'unview' | 'close' | 'translate' | 'search'
 const ICONS: Record<IconName, JSX.Element> = {
   accommodation:
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#1f1f1f" viewBox="0 -960 960 960">
@@ -67,6 +68,10 @@ const ICONS: Record<IconName, JSX.Element> = {
   translate:
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#1f1f1f" viewBox="0 -960 960 960">
       <path d="m476-80 182-480h84L924-80h-84l-43-122H603L560-80zM160-200l-56-56 202-202q-35-35-63.5-80T190-640h84q20 39 40 68t48 58q33-33 68.5-92.5T484-720H40v-80h280v-80h80v80h280v80H564q-21 72-63 148t-83 116l96 98-30 82-122-125zm468-72h144l-72-204z"/>
+    </svg>,
+  search:
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#1f1f1f" viewBox="0 -960 960 960">
+      <path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580t75.5-184.5T380-840t184.5 75.5T640-580q0 44-14 83t-38 69l252 252zM380-400q75 0 127.5-52.5T560-580t-52.5-127.5T380-760t-127.5 52.5T200-580t52.5 127.5T380-400"/>
     </svg>
 };
 
@@ -108,6 +113,7 @@ function isTodayWithinTrip(): boolean {
   const todayM = moment();
   const tripStartM = moment($TRIP.start);
   const tripEndM = moment($TRIP.end);
+  todayM.isSameOrAfter(tripStartM) && todayM.isSameOrBefore(tripEndM);
   return todayM.isSameOrAfter(tripStartM) && todayM.isSameOrBefore(tripEndM);
 }
 
@@ -122,7 +128,7 @@ function getDayFromTrip(dateString?: string): Day {
   const days = Object.values($TRIP.days);
   while (i < days.length) {
     const day = days[i];
-    if (dayM.day === moment(day.day).day) {
+    if (day.day ===  dayM.format(DATE_FORMAT_COMPARE)) {
       return day;
     }
     i++;
@@ -147,6 +153,10 @@ function getDayIndex(day: Day) {
   }
 
   return 0;
+}
+
+function getSearchLink(term: string) {
+  return encodeURI(`https://www.google.com/search?q=${term}`);
 }
 
 function Date({
@@ -287,6 +297,15 @@ function Header({
       fontWeight: "bold",
       marginTop: "6px",
       marginBottom: "6px",
+    };
+  } else if (type === 'h3') {
+    style = {
+      ...style,
+      color: color ?? "#333",
+      fontSize: "28px",
+      fontWeight: "bold",
+      marginTop: "4px",
+      marginBottom: "4px",
     };
   } else if (type === 'inline1') {
     style = {
@@ -519,9 +538,11 @@ function TodayAccommodation({
 function Suggestion({
   suggestion,
   time,
+  canSearch,
 }: {
   suggestion: Suggestion;
   time?: string;
+  canSearch?: boolean;
 }) {
   const [showInfo, setShowInfo] = useState(false);
   const toggleInfo = () => {
@@ -535,6 +556,13 @@ function Suggestion({
     display: "flex",
   };
 
+  const notSearchableType = suggestion.type === 'cafe'
+    || suggestion.type === 'dinner'
+    || suggestion.type === 'breakfast'
+    || suggestion.type === 'food'
+    || suggestion.type === 'drinks'
+    || suggestion.type === 'lunch'
+
   // TODO add other suggestion info like where when price etc
   return (
     <>
@@ -542,6 +570,7 @@ function Suggestion({
         <Text text={suggestionName}/>
         <InlineSpace size={2}/>
         {time ? <Text text={time}/> : null}
+        {canSearch && !notSearchableType ? <Icon img={ICONS.search} link={getSearchLink(suggestionName)}/> : null}
         {suggestion.link ? <Icon img={ICONS.link} link={suggestion.link}/> : null}
         {suggestion.mapLink ? <Icon img={ICONS.mapLink} link={suggestion.mapLink}/> : null}
         {suggestion.description ? <Icon img={ICONS.info} onClick={toggleInfo}/> : null}
@@ -561,7 +590,7 @@ function Suggestions({
       {suggestionIds.map((id, i) => {
         const suggestion = getSgt(id);
         return (
-          <Suggestion key={`sgs${suggestion.id}${i}`} suggestion={suggestion}/>
+          <Suggestion key={`sgs${suggestion.id}${i}`} suggestion={suggestion} canSearch={true}/>
         );
       })}
     </div>
@@ -593,7 +622,7 @@ function TodayItinerary({
           const suggestion = getSgt(item.thing as SuggestionId);
 
           return (
-            <Suggestion key={`i${suggestion.id}`} suggestion={suggestion} time={item.time}/>
+            <Suggestion key={`i${suggestion.id}`} suggestion={suggestion} time={item.time} canSearch={item.canSearch}/>
           );
         }
 
@@ -602,6 +631,7 @@ function TodayItinerary({
             <Text text={item.thing as string}/>
             <InlineSpace size={2}/>
             {item.time ? <Text text={item.time}/> : null}
+            {item.canSearch ? <Icon img={ICONS.search} link={getSearchLink(item.thing as string)}/> : null}
           </div>
         );
       })}
@@ -656,6 +686,82 @@ function Phrase({
         <div className={'pb--notes'}>{phrase.notes}</div>
       </div>
     </>
+  )
+}
+
+function HelpSection({
+  help,
+}: {
+  help: Help;
+}) {
+  const [open, setOpen] = useState(false);
+
+  const title = help.name;
+  let containerStyle: CSS = {
+    background: help.color,
+    border: "none",
+    borderRadius: "3px",
+    color: "#fff",
+    paddingBlock: "12px",
+    paddingInline: "16px",
+    marginInline: "1%",
+    marginBlock: "12px",
+  };
+
+  const onToggleOpen = () => {
+    setOpen(!open);
+  };
+
+  if (!open) {
+    containerStyle = {
+      ...containerStyle,
+      cursor: "pointer"
+    };
+
+    const textStyle = {
+      fontSize: "36px",
+      fontWeight: "bold",
+    };
+    return (
+      <div style={containerStyle} onClick={onToggleOpen}>
+        <span style={textStyle}>{title}</span>
+      </div>
+    );
+  }
+
+  containerStyle = {
+    ...containerStyle,
+    background: "#fff",
+    border: `6px solid ${help.color}`,
+  };
+
+  return (
+    <div style={containerStyle}>
+      <Icon img={ICONS.close} onClick={onToggleOpen}/>
+      <Header text={title} type={'h2'}/>
+      <BlockSpace size={12}/>
+      {help.bits.map((bit, i) => {
+        const divider = i < bit.body.length - 1;
+        const style = {
+          color: '#333'
+        };
+
+        return (
+          <section key={`${bit}${i}`}>
+            {bit.header ? <Header text={bit.header} type={'h3'} color={help.color}/> : null}
+            {bit.body.map((text, i) => {
+              return (
+                <div key={`${bit.body[0]}${i}`} style={style}>
+                  {text}
+                </div>
+              )
+            })}
+            {divider ? <HorizontalDivider color={help.color} thickness={3}/> : null}
+          </section>
+        )
+
+      })}
+    </div>
   )
 }
 
@@ -775,6 +881,7 @@ function Home({
       <section>
         <Phrasebook phrases={$TRIP.phrasebook}/>
       </section>
+      {$TRIP.help.map((help) => <HelpSection key={help.name} help={help}/>)}
     </div>
   );
 }
