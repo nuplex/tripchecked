@@ -3,10 +3,10 @@ import {type CSSProperties, type JSX, useState} from "react";
 import {
   type Accommodation,
   type AccommodationId,
-  type Day, type Help, type Phrase,
+  type Day, type Help, type HelpBit, type Phrase,
   type Suggestion,
   type SuggestionId,
-  type SuggestionType,
+  type SuggestionType, toHelp,
   type Trip
 } from "./TripData.ts";
 import {Japan2026TripData} from "./japanTrip2026Data.ts";
@@ -18,7 +18,7 @@ const pages = ['home'] as const;
 type Page = typeof pages[number];
 
 type HeaderType = 'h1' | 'h2' | 'h3' | 'inline1';
-type TextType = 'bold' | 'small_header' | 'info';
+type TextType = 'small_header' | 'info' | 'time';
 type ButtonType = 'text-button' | 'standard-button' | 'nextprev-button';
 
 type IconShape = 'round_square' | 'circle' | 'square';
@@ -30,8 +30,34 @@ const DATE_FORMAT_DOTW_DAY = "MMM Do";
 const DATE_FORMAT_COMPARE = "MM/D/YYYY";
 
 const COLOR_PHRASEBOOK_PRIMARY = "#cc5757";
+const COLOR_ACCOMMODATION_PRIMARY = "#ecc30b";
+const COLOR_SAVES = "#6153CC";
+const COLOR_SAVED = "#ecc30b";
 
-type IconName = 'accommodation' | 'mapLink' | 'number' | 'info' | 'link' | 'view' | 'unview' | 'close' | 'translate' | 'search'
+const LOCAL_STORAGE_SAVES = 'saves';
+
+type OnSaveArgs = {
+  key: string;
+  item: Phrase | HelpBit | Suggestion | Accommodation | null;
+  isRemoval: boolean;
+};
+
+export type IconName =
+  'accommodation'
+  | 'mapLink'
+  | 'number'
+  | 'info'
+  | 'link'
+  | 'view'
+  | 'unview'
+  | 'close'
+  | 'translate'
+  | 'search'
+  | 'nearestTransit'
+  | 'logo_GoogleTranslate'
+  | 'logo_WhatsApp'
+  | 'saved'
+  | 'unsaved';
 const ICONS: Record<IconName, JSX.Element> = {
   accommodation:
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#1f1f1f" viewBox="0 -960 960 960">
@@ -72,7 +98,49 @@ const ICONS: Record<IconName, JSX.Element> = {
   search:
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#1f1f1f" viewBox="0 -960 960 960">
       <path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580t75.5-184.5T380-840t184.5 75.5T640-580q0 44-14 83t-38 69l252 252zM380-400q75 0 127.5-52.5T560-580t-52.5-127.5T380-760t-127.5 52.5T200-580t52.5 127.5T380-400"/>
-    </svg>
+    </svg>,
+  nearestTransit:
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#1f1f1f" viewBox="0 -960 960 960">
+      <path d="M280-240h320q33 0 56.5-23.5T680-320v-120H200v120q0 33 23.5 56.5T280-240m62.5-57.5Q360-315 360-340t-17.5-42.5T300-400t-42.5 17.5T240-340t17.5 42.5T300-280t42.5-17.5m280 0Q640-315 640-340t-17.5-42.5T580-400t-42.5 17.5T520-340t17.5 42.5T580-280t42.5-17.5M200-80q-17 0-28.5-11.5T160-120v-82q-18-20-29-44.5T120-300v-380q0-83 77-121.5T440-840q26 0 49 .5t44 2.5q-7 19-10 38.5t-3 40.5q-17-1-36.5-1.5T442-760q-87 0-144 10t-80 30h305q4 19 11 39t18 41H200v120h443l117 105v115q0 29-11 53.5T720-202v82q0 17-11.5 28.5T680-80h-40q-17 0-28.5-11.5T600-120v-40H280v40q0 17-11.5 28.5T240-80zm531.5-651.5Q720-743 720-760t11.5-28.5T760-800t28.5 11.5T800-760t-11.5 28.5T760-720t-28.5-11.5m99.5-98q29 30.5 29 73.5 0 32-24.5 70.5T761-600q-51-48-76-86t-25-70q0-43 29-73.5t71-30.5 71 30.5M760-520q81-69 120.5-127.5T920-756q0-68-46.5-116T760-920t-113.5 48T600-756q0 50 39.5 108.5T760-520m-560 80h480zm323-280H218zm237-40"/>
+    </svg>,
+  logo_GoogleTranslate:
+    <svg xmlns="http://www.w3.org/2000/svg" xmlSpace="preserve" viewBox="0 0 998.1 998.3">
+      <path fill="#dbdbdb" d="M931.7 998.3c36.5 0 66.4-29.4 66.4-65.4V265.8c0-36-29.9-65.4-66.4-65.4H283.6l260.1 797.9z"/>
+      <path fill="#dcdcdc" d="M931.7 230.4c9.7 0 18.9 3.8 25.8 10.6 6.8 6.7 10.6 15.5 10.6 24.8v667.1c0 9.3-3.7 18.1-10.6 24.8-6.9 6.8-16.1 10.6-25.8 10.6H565.5L324.9 230.4zm0-30H283.6l260.1 797.9h388c36.5 0 66.4-29.4 66.4-65.4V265.8c0-36-29.9-65.4-66.4-65.4"/>
+      <path fill="#4352b8" d="m482.3 809.8 61.4 188.5 170.7-188.5z"/>
+      <path fill="#607988" d="M936.1 476.1V437H747.6v-63.2h-61.2V437H566.1v39.1h239.4c-12.8 45.1-41.1 87.7-68.7 120.8-48.9-57.9-49.1-76.7-49.1-76.7h-50.8s2.1 28.2 70.7 108.6c-22.3 22.8-39.2 36.3-39.2 36.3l15.6 48.8s23.6-20.3 53.1-51.6c29.6 32.1 67.8 70.7 117.2 116.7l32.1-32.1c-52.9-48-91.7-86.1-120.2-116.7 38.2-45.2 77-102.1 85.2-154.2H936v.1z"/>
+      <path fill="#4285f4" d="M66.4 0C29.9 0 0 29.9 0 66.5v677c0 36.5 29.9 66.4 66.4 66.4h648.1L454.4 0z"/>
+      <linearGradient id="a" x1="534.3" x2="998.1" y1="433.2" y2="433.2" gradientUnits="userSpaceOnUse">
+        <stop offset="0" stopColor="#fff" stopOpacity=".2"/>
+        <stop offset="1" stopColor="#fff" stopOpacity=".02"/>
+      </linearGradient>
+      <path fill="url(#a)" d="M534.3 200.4h397.4c36.5 0 66.4 29.4 66.4 65.4V666z"/>
+      <path fill="#eee" d="M371.4 430.6c-2.5 30.3-28.4 75.2-91.1 75.2-54.3 0-98.3-44.9-98.3-100.2s44-100.2 98.3-100.2c30.9 0 51.5 13.4 63.3 24.3l41.2-39.6c-27.1-25-62.4-40.6-104.5-40.6-86.1 0-156 69.9-156 156s69.9 156 156 156c90.2 0 149.8-63.3 149.8-152.6 0-12.8-1.6-22.2-3.7-31.8h-146v53.4z"/>
+      <radialGradient id="b" cx="65.208" cy="19.366" r="1398.271" gradientUnits="userSpaceOnUse">
+        <stop offset="0" stopColor="#fff" stopOpacity=".1"/>
+        <stop offset="1" stopColor="#fff" stopOpacity="0"/>
+      </radialGradient>
+      <path fill="url(#b)" d="M931.7 200.4H518.8L454.4 0h-388C29.9 0 0 29.9 0 66.5v677c0 36.5 29.9 66.4 66.4 66.4h415.9l61.4 188.4h388c36.5 0 66.4-29.4 66.4-65.4V265.8c0-36-29.9-65.4-66.4-65.4"/>
+    </svg>,
+  logo_WhatsApp:
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 175.216 175.552">
+      <defs>
+        <linearGradient id="linearGradient1780" x1="85.915" x2="86.535" y1="32.567" y2="137.092" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stopColor="#57d163"/>
+          <stop offset="1" stopColor="#23b33a"/>
+        </linearGradient>
+        <filter id="a" width="1.115" height="1.114" x="-.057" y="-.057" colorInterpolationFilters="sRGB">
+          <feGaussianBlur stdDeviation="3.531"/>
+        </filter>
+      </defs>
+      <path fill="#b3b3b3" d="m54.532 138.45 2.235 1.324c9.387 5.571 20.15 8.518 31.126 8.523h.023c33.707 0 61.139-27.426 61.153-61.135.006-16.335-6.349-31.696-17.895-43.251A60.75 60.75 0 0 0 87.94 25.983c-33.733 0-61.166 27.423-61.178 61.13a61 61 0 0 0 9.349 32.535l1.455 2.312-6.179 22.558zm-40.811 23.544L24.16 123.88c-6.438-11.154-9.825-23.808-9.821-36.772.017-40.556 33.021-73.55 73.578-73.55 19.681.01 38.154 7.669 52.047 21.572s21.537 32.383 21.53 52.037c-.018 40.553-33.027 73.553-73.578 73.553h-.032a73.54 73.54 0 0 1-35.159-8.954zm0 0" filter="url(#a)"/>
+      <path fill="#fff" d="m12.966 161.238 10.439-38.114a73.4 73.4 0 0 1-9.821-36.772c.017-40.556 33.021-73.55 73.578-73.55 19.681.01 38.154 7.669 52.047 21.572s21.537 32.383 21.53 52.037c-.018 40.553-33.027 73.553-73.578 73.553h-.032a73.54 73.54 0 0 1-35.159-8.954z"/>
+      <path fill="url(#linearGradient1780)" d="M87.184 25.227c-33.733 0-61.166 27.423-61.178 61.13a61 61 0 0 0 9.349 32.535l1.455 2.312-6.179 22.559 23.146-6.069 2.235 1.324c9.387 5.571 20.15 8.518 31.126 8.524h.023c33.707 0 61.14-27.426 61.153-61.135a60.75 60.75 0 0 0-17.895-43.251 60.75 60.75 0 0 0-43.235-17.929"/>
+      <path fill="url(#b)" d="M87.184 25.227c-33.733 0-61.166 27.423-61.178 61.13a61 61 0 0 0 9.349 32.535l1.455 2.313-6.179 22.558 23.146-6.069 2.235 1.324c9.387 5.571 20.15 8.517 31.126 8.523h.023c33.707 0 61.14-27.426 61.153-61.135a60.75 60.75 0 0 0-17.895-43.251 60.75 60.75 0 0 0-43.235-17.928"/>
+      <path fill="#fff" fillRule="evenodd" d="M68.772 55.603c-1.378-3.061-2.828-3.123-4.137-3.176l-3.524-.043c-1.226 0-3.218.46-4.902 2.3s-6.435 6.287-6.435 15.332 6.588 17.785 7.506 19.013 12.718 20.381 31.405 27.75c15.529 6.124 18.689 4.906 22.061 4.6s10.877-4.447 12.408-8.74 1.532-7.971 1.073-8.74-1.685-1.226-3.525-2.146-10.877-5.367-12.562-5.981-2.91-.919-4.137.921-4.746 5.979-5.819 7.206-2.144 1.381-3.984.462-7.76-2.861-14.784-9.124c-5.465-4.873-9.154-10.891-10.228-12.73s-.114-2.835.808-3.751c.825-.824 1.838-2.147 2.759-3.22s1.224-1.84 1.836-3.065.307-2.301-.153-3.22-4.032-10.011-5.666-13.647"/>
+    </svg>,
+  saved: <span style={{color: COLOR_SAVED}}>★</span>,
+  unsaved: <span style={{color: '#333'}}>☆</span>,
 };
 
 export function getSgt(id: SuggestionId): Suggestion {
@@ -102,7 +170,7 @@ function getEmojiForSuggestionType(type: SuggestionType): string {
     case "shopping":
       return '🛍️';
     case "place":
-      return '🚏';
+      return '🗺️';
     case "other":
     default:
       return '';
@@ -115,6 +183,11 @@ function isTodayWithinTrip(): boolean {
   const tripEndM = moment($TRIP.end);
   todayM.isSameOrAfter(tripStartM) && todayM.isSameOrBefore(tripEndM);
   return todayM.isSameOrAfter(tripStartM) && todayM.isSameOrBefore(tripEndM);
+}
+
+function isDayToday(day: Day): boolean {
+  const todayString = moment().format(DATE_FORMAT_COMPARE);
+  return todayString === day.day;
 }
 
 function getFirstDayTrip(): Day {
@@ -157,6 +230,21 @@ function getDayIndex(day: Day) {
 
 function getSearchLink(term: string) {
   return encodeURI(`https://www.google.com/search?q=${term}`);
+}
+
+function getHelpBitParent(bit: HelpBit): Help | undefined {
+  return $TRIP.help.find((help) => help.bits.find((bitB) => bit.id === bitB.id));
+}
+
+function isSaved(key: string) {
+  const savesRaw = localStorage.getItem(LOCAL_STORAGE_SAVES);
+  if (!savesRaw) {
+    return false;
+  }
+
+  const saves = JSON.parse(savesRaw);
+
+  return !!saves[key];
 }
 
 function Date({
@@ -220,26 +308,26 @@ function Text({
   moreStyle = {},
   fontSize,
   isBlock,
+  bold,
+  link,
 }: {
   text: string;
   type?: TextType;
   fontSize?: number;
   moreStyle?: CSS;
   isBlock?: boolean;
+  bold?: boolean;
+  link?: string;
 }){
   let style: CSS = {
     fontSize: fontSize ? fontSize+"px" : "16px",
+    fontWeight: bold ? "bold" : undefined,
     lineHeight: fontSize ?  fontSize+"px" : "16px",
     color: "#333",
     display: isBlock ? "block" : undefined
   };
 
   let typeStyle: CSS = {};
-  if (type === 'bold') {
-    typeStyle = {
-      fontWeight: "bold",
-    }
-  }
 
   if (type === 'small_header') {
     typeStyle = {
@@ -256,11 +344,31 @@ function Text({
     }
   }
 
+  if (type === 'time') {
+    typeStyle = {
+      color: '#666',
+      fontSize: "13px",
+      lineHeight: "13px",
+    }
+  }
+
+  let linkStyle: CSS = {};
+  if (link) {
+    linkStyle = {
+      textDecoration: 'underline',
+    };
+  }
+
   style = {
     ...style,
     ...typeStyle,
     ...moreStyle,
+    ...linkStyle,
   };
+
+  if (link) {
+    return <a style={style} href={link} target={'_blank'}>{text}</a>
+  }
 
   return <span style={style}>{text}</span>
 }
@@ -286,6 +394,7 @@ function Header({
       color: color ?? "#333",
       fontSize: "48px",
       fontWeight: "bold",
+      lineHeight: "48px",
       marginTop: "8px",
       marginBottom: "12px",
     };
@@ -295,6 +404,7 @@ function Header({
       color: color ?? "#333",
       fontSize: "36px",
       fontWeight: "bold",
+      lineHeight: "36px",
       marginTop: "6px",
       marginBottom: "6px",
     };
@@ -304,6 +414,7 @@ function Header({
       color: color ?? "#333",
       fontSize: "28px",
       fontWeight: "bold",
+      lineHeight: "28px",
       marginTop: "4px",
       marginBottom: "4px",
     };
@@ -314,6 +425,7 @@ function Header({
       display: "inline-block",
       fontSize: "24px",
       fontWeight: "bold",
+      lineHeight: "24px",
       marginRight: "8px",
     };
   }
@@ -360,6 +472,10 @@ function Icon({
   shape,
   size,
   color,
+  marginRight,
+  marginLeft,
+  subtitle,
+  moreStyle,
 }: {
   img: JSX.Element;
   link?: string;
@@ -367,6 +483,10 @@ function Icon({
   shape?: IconShape;
   size?: number;
   color?: string;
+  marginLeft?: number;
+  marginRight?: number;
+  subtitle?: string;
+  moreStyle?: CSS;
 }) {
   let border: CSS = {};
   if (shape === 'circle') {
@@ -383,23 +503,37 @@ function Icon({
     }
   }
 
+  let subtitleStyle: CSS = {};
+  if (subtitle) {
+    subtitleStyle = {
+      flexDirection: "column",
+      textAlign: "center",
+      textDecoration: "none"
+    };
+  }
+
   const sizePx = size ? `${size}px` : undefined;
   const style: CSS = {
     alignItems: "center",
-    background: color ?? undefined,
+    background: color,
     cursor: "pointer",
     display: "inline-flex",
     justifyContent: "center",
-    height: sizePx ?? "24px",
+    height: sizePx ?? "28px",
+    marginRight: marginRight ? `${marginRight}px` : undefined,
+    marginLeft: marginLeft ? `${marginLeft}px` : undefined,
     userSelect: "none",
-    width: sizePx ?? "24px",
+    width: sizePx ?? "28px",
     ...border,
+    ...subtitleStyle,
+    ...moreStyle,
   };
 
   if (link) {
     return (
       <a style={style} href={link ?? undefined} target={'_blank'}>
         {img}
+        {subtitle ? <Text text={subtitle} fontSize={11}/> : null}
       </a>
     );
   }
@@ -407,6 +541,7 @@ function Icon({
   return (
     <div style={style} onClick={onClick}>
       {img}
+      {subtitle ? <Text text={subtitle} fontSize={11}/> : null}
     </div>
   );
 }
@@ -457,22 +592,56 @@ function LabelledElement({
   element,
   containerStyle = {},
   inline,
+  flex,
 }: {
   label: JSX.Element;
   element: JSX.Element;
   containerStyle?: CSS;
   inline?: boolean;
+  flex?: boolean;
 }) {
-  const style: CSS = {
+  let style: CSS = {
     display: inline ? "inline-block" : undefined,
     ...containerStyle
   }
+
+  if (flex) {
+    if (inline) {
+      style = {
+        ...style,
+        display: 'inline-flex',
+        alignItems: 'center',
+      };
+    } else {
+      style = {
+        ...style,
+        display: 'flex',
+        alignItems: 'center',
+      };
+    }
+  }
+
   return (
     <div style={style}>
       {label}
       {element}
     </div>
   );
+}
+
+function InlineContainer({
+  moreStyle,
+  children
+}: {
+  moreStyle?: CSS;
+  children: any;
+}){
+  const style: CSS = {
+    ...moreStyle,
+    display: "inline"
+  };
+
+  return <div style={style}>{children}</div>
 }
 
 function Today({
@@ -491,6 +660,57 @@ function Today({
       label={<Text text={'Today is '} type={'small_header'}/>}
       element={<Date timestamp={+today} format={DATE_FORMAT_DOTW_DAY} inline={true} bold={true} size="24px"/>}
     />
+  );
+}
+
+function AccommodationInfo({
+  accommodation,
+  onSave,
+}: {
+  accommodation: Accommodation
+  onSave: (args: OnSaveArgs) => void;
+}) {
+  const saved = isSaved(accommodation.id);
+
+  return (
+    <div>
+      <Header text={accommodation.name} type={'h3'}/>
+      <Text text={accommodation.where} fontSize={14} isBlock={true}/>
+      <Text text={accommodation.address} type={'info'}/>
+      <LabelledElement
+        label={<Text text={'Check-In at '} fontSize={12}/>}
+        element={<Text text={`${accommodation.checkInTime} on ${moment(accommodation.start).format(DATE_FORMAT_MONTH_DAY)}`} fontSize={12} bold={true}/>}
+      />
+      <LabelledElement
+        label={<Text text={'Check-Out at '} fontSize={12}/>}
+        element={<Text text={`${accommodation.checkoutTime} on ${moment(accommodation.end).format(DATE_FORMAT_MONTH_DAY)}`} fontSize={12} bold={true}/>}
+      />
+      <LabelledElement
+        label={<Icon img={ICONS.accommodation} link={accommodation.link}/>}
+        element={<Text text={accommodation.type === 'airbnb' ? 'See on Airbnb' : 'Open Hotel Website'} link={accommodation.link}/>}
+        flex={true}
+      />
+      <LabelledElement
+        label={<Icon img={ICONS.mapLink} link={accommodation.mapLink}/>}
+        element={<Text text={'Open in Maps'} link={accommodation.mapLink}/>}
+        flex={true}
+      />
+      <LabelledElement
+        label={<Icon img={ICONS.nearestTransit} link={accommodation.nearestTransit}/>}
+        element={<Text text={'See Nearest Transit Stop'} link={accommodation.nearestTransit}/>}
+        flex={true}
+      />
+      <Icon
+        img={saved ? ICONS.saved : ICONS.unsaved}
+        moreStyle={{
+          display: 'block',
+          fontSize: '24px',
+          height: '24px',
+          width: '24px',
+          lineHeight: '24px',
+        }}
+        onClick={() => {onSave({key: accommodation.id, item: accommodation, isRemoval: saved})}}/>
+    </div>
   );
 }
 
@@ -521,11 +741,18 @@ function TodayAccommodation({
                 element={<Text text={accommodation.name}/>}
                 inline={true}
               />
+              <InlineSpace size={6}/>
               <Icon img={ICONS.accommodation} link={accommodation.link}/>
-              <InlineSpace size={2}/>
-              <Icon img={ICONS.mapLink} link={accommodation.mapLink}/>
               <InlineSpace size={4}/>
+              <Icon img={ICONS.mapLink} link={accommodation.mapLink}/>
+              <InlineSpace size={8}/>
               <Icon img={ICONS.number} onClick={toggleAddress}/>
+              {accommodation.nearestTransit ?
+                <>
+                  <InlineSpace size={6}/>
+                  <Icon img={ICONS.nearestTransit} link={accommodation.nearestTransit}/>
+                </>
+                : null}
             </div>
             {showAddress ? <Text text={accommodation.address} isBlock={true} type={'info'}/> : null}
           </section>
@@ -539,10 +766,12 @@ function Suggestion({
   suggestion,
   time,
   canSearch,
+  moreStyle,
 }: {
   suggestion: Suggestion;
   time?: string;
   canSearch?: boolean;
+  moreStyle?: CSS;
 }) {
   const [showInfo, setShowInfo] = useState(false);
   const toggleInfo = () => {
@@ -554,6 +783,8 @@ function Suggestion({
 
   const style: CSS = {
     display: "flex",
+    alignItems: "center",
+    ...moreStyle
   };
 
   const notSearchableType = suggestion.type === 'cafe'
@@ -567,12 +798,14 @@ function Suggestion({
   return (
     <>
       <div style={style}>
-        <Text text={suggestionName}/>
-        <InlineSpace size={2}/>
-        {time ? <Text text={time}/> : null}
-        {canSearch && !notSearchableType ? <Icon img={ICONS.search} link={getSearchLink(suggestionName)}/> : null}
-        {suggestion.link ? <Icon img={ICONS.link} link={suggestion.link}/> : null}
-        {suggestion.mapLink ? <Icon img={ICONS.mapLink} link={suggestion.mapLink}/> : null}
+        <InlineContainer>
+          <Text text={suggestionName}/>
+          <InlineSpace size={4}/>
+          {time ? <Text text={time} type={'time'}/> : null}
+        </InlineContainer>
+        {canSearch && !notSearchableType ? <Icon img={ICONS.search} link={getSearchLink(suggestionName)} marginRight={4}/> : null}
+        {suggestion.link ? <Icon img={ICONS.link} link={suggestion.link} marginRight={4}/> : null}
+        {suggestion.mapLink ? <Icon img={ICONS.mapLink} link={suggestion.mapLink} marginRight={4}/> : null}
         {suggestion.description ? <Icon img={ICONS.info} onClick={toggleInfo}/> : null}
       </div>
       {showInfo && suggestion.description ? <Text text={suggestion.description} isBlock={true} type={'info'}/> : null}
@@ -608,7 +841,6 @@ function TodayItinerary({
     setShowSuggestions(!showSuggestions);
   };
 
-
   const containerStyle: CSS = {
     marginLeft: "12px"
   };
@@ -618,20 +850,28 @@ function TodayItinerary({
   return (
     <div style={containerStyle}>
       {shownDay.itinerary.items.map((item, i) => {
+        const lineStyle: CSS = {
+          alignItems: "center",
+          display: "flex",
+          minHeight: "30px"
+        };
+
         if (item.isSuggestion) {
           const suggestion = getSgt(item.thing as SuggestionId);
-
           return (
-            <Suggestion key={`i${suggestion.id}`} suggestion={suggestion} time={item.time} canSearch={item.canSearch}/>
+            <Suggestion key={`i${suggestion.id}`} suggestion={suggestion} time={item.time} canSearch={item.canSearch} moreStyle={lineStyle}/>
           );
         }
 
         return (
-          <div key={`${item.thing}${i}`}>
-            <Text text={item.thing as string}/>
-            <InlineSpace size={2}/>
-            {item.time ? <Text text={item.time}/> : null}
-            {item.canSearch ? <Icon img={ICONS.search} link={getSearchLink(item.thing as string)}/> : null}
+          <div key={`${item.thing}${i}`} style={lineStyle}>
+            <InlineContainer>
+              <Text text={item.thing as string}/>
+              <InlineSpace size={4}/>
+              {item.time ? <Text text={item.time} type={'time'}/> : null}
+            </InlineContainer>
+            {item.canSearch ? <Icon img={ICONS.search} link={getSearchLink(item.thing as string)} marginRight={4}/> : null}
+            {item.link ? <Icon img={ICONS.link} link={item.link} marginRight={4}/> : null}
           </div>
         );
       })}
@@ -651,9 +891,11 @@ function TodayItinerary({
 }
 
 function Phrase({
-  phrase
+  phrase,
+  onSave,
 }: {
   phrase: Phrase;
+  onSave: (args: OnSaveArgs) => void;
 }) {
   const [showBigText, setShowBigText] = useState(false);
   const [showNative, setShowNative] = useState(false);
@@ -671,6 +913,8 @@ function Phrase({
     lineHeight: '54px'
   };
 
+  const saved = isSaved(phrase.term);
+
   return (
     <>
       <div>
@@ -684,15 +928,128 @@ function Phrase({
         </div>
         <div className={'pb--pronunciation'}>{phrase.pronunciation.join(' OR ')}</div>
         <div className={'pb--notes'}>{phrase.notes}</div>
+        <BlockSpace size={2}/>
+        <Icon
+          img={saved ? ICONS.saved : ICONS.unsaved}
+          moreStyle={{
+            display: 'block',
+            fontSize: '24px',
+            height: '24px',
+            width: '24px',
+            lineHeight: '24px',
+          }}
+          onClick={() => {onSave({key: phrase.term, item: phrase, isRemoval: saved})}}/>
       </div>
     </>
   )
 }
 
-function HelpSection({
+function Section({
+  name,
+  color,
+  children,
+}: {
+  name: string;
+  color: string;
+  children: any;
+}) {
+  const [open, setOpen] = useState(false);
+
+  const title = name;
+  let containerStyle: CSS = {
+    background: color,
+    border: "none",
+    borderRadius: "3px",
+    color: "#fff",
+    paddingBlock: "12px",
+    paddingInline: "16px",
+    marginInline: "1%",
+    marginBlock: "12px",
+  };
+
+  const onToggleOpen = () => {
+    setOpen(!open);
+  };
+
+  if (!open) {
+    containerStyle = {
+      ...containerStyle,
+      cursor: "pointer"
+    };
+
+    const textStyle = {
+      fontSize: "36px",
+      fontWeight: "bold",
+      lineHeight: "36px",
+    };
+    return (
+      <div style={containerStyle} onClick={onToggleOpen}>
+        <span style={textStyle}>{title}</span>
+      </div>
+    );
+  }
+
+  containerStyle = {
+    ...containerStyle,
+    background: "#fff",
+    border: `6px solid ${color}`,
+  };
+
+  return (
+    <div style={containerStyle}>
+      <Icon img={ICONS.close} onClick={onToggleOpen}/>
+      <Header text={title} type={'h2'}/>
+      <BlockSpace size={12}/>
+      {children}
+    </div>
+  )
+}
+
+function HelpBitInfo({
   help,
+  bit,
+  onSave,
 }: {
   help: Help;
+  bit: HelpBit;
+  onSave: (args: OnSaveArgs) => void;
+}) {
+  const style = {
+    color: '#333'
+  };
+
+  const saved = isSaved(bit.id);
+
+  return (
+    <div>
+      {bit.header ? <Header text={bit.header} type={'h3'} color={help.subtitleColor ?? help.color}/> : null}
+      {bit.body.map((text, i) => {
+        return (
+          <div key={`${bit.body[0]}${i}`} style={style}>
+            <span dangerouslySetInnerHTML={{__html: text}}/>
+          </div>
+        )
+      })}
+      <Icon
+        img={saved ? ICONS.saved : ICONS.unsaved}
+        moreStyle={{
+          display: 'block',
+          fontSize: '24px',
+          height: '24px',
+          width: '24px',
+          lineHeight: '24px',
+        }}
+        onClick={() => {onSave({key: bit.id, item: bit, isRemoval: saved})}}/>
+    </div>
+  );
+}
+
+function HelpSection({
+  help,
+  onSave,
+}: {
+  help: Help;
+  onSave: (args: OnSaveArgs) => void;
 }) {
   const [open, setOpen] = useState(false);
 
@@ -719,8 +1076,10 @@ function HelpSection({
     };
 
     const textStyle = {
+      color: help.titleColor,
       fontSize: "36px",
       fontWeight: "bold",
+      lineHeight: "36px",
     };
     return (
       <div style={containerStyle} onClick={onToggleOpen}>
@@ -741,21 +1100,11 @@ function HelpSection({
       <Header text={title} type={'h2'}/>
       <BlockSpace size={12}/>
       {help.bits.map((bit, i) => {
-        const divider = i < bit.body.length - 1;
-        const style = {
-          color: '#333'
-        };
+        const divider = i < help.bits.length - 1;
 
         return (
           <section key={`${bit}${i}`}>
-            {bit.header ? <Header text={bit.header} type={'h3'} color={help.color}/> : null}
-            {bit.body.map((text, i) => {
-              return (
-                <div key={`${bit.body[0]}${i}`} style={style}>
-                  {text}
-                </div>
-              )
-            })}
+            <HelpBitInfo help={help} bit={bit} onSave={onSave}/>
             {divider ? <HorizontalDivider color={help.color} thickness={3}/> : null}
           </section>
         )
@@ -767,8 +1116,10 @@ function HelpSection({
 
 function Phrasebook({
   phrases,
+  onSave,
 }: {
   phrases: Phrase[];
+  onSave: (args: OnSaveArgs) => void;
 }) {
   const [open, setOpen] = useState(false);
   const title = 'Phrasebook';
@@ -795,6 +1146,7 @@ function Phrasebook({
     const textStyle = {
       fontSize: "36px",
       fontWeight: "bold",
+      lineHeight: "36px",
     };
     return (
       <div style={containerStyle} onClick={onToggleOpen}>
@@ -818,7 +1170,7 @@ function Phrasebook({
         const divider = i < phrases.length - 1;
         return (
           <section key={`${p.pronunciation}${i}`}>
-            <Phrase phrase={p}/>
+            <Phrase phrase={p} onSave={onSave}/>
             {divider ? <HorizontalDivider color={COLOR_PHRASEBOOK_PRIMARY} thickness={3}/> : null}
           </section>
         )
@@ -828,6 +1180,75 @@ function Phrasebook({
   )
 }
 
+function Saves({
+  saves,
+  onUnsave,
+}: {
+  saves: Record<string, Phrase | Accommodation | HelpBit> | null;
+  onUnsave: (args: OnSaveArgs) => void;
+}) {
+  const localOnUnsave = ({
+    key,
+  }: OnSaveArgs) => {
+    onUnsave({
+      key,
+      item: null,
+      isRemoval: true,
+    });
+  };
+
+  let body;
+  if (saves && Object.values(saves).length > 0) {
+    const savesArray = Object.values(saves);
+    body = (
+      <div>
+        {savesArray.map((item, i) => {
+          const divider = i < savesArray.length - 1;
+          let element;
+          if ('term' in item) {
+            const phrase = item as Phrase;
+            element = <Phrase phrase={phrase} onSave={localOnUnsave}/>
+          } else if  ('body' in item) {
+            const helpBit = item as HelpBit;
+            let helpParent = getHelpBitParent(helpBit);
+            if (!helpParent) {
+              console.warn('Could not find parent for helpBit ', helpBit.id, '. Defaulting to generic parent.');
+              helpParent = toHelp({
+                bits: [helpBit], color: "#333", name: "Help"
+              });
+            }
+            element = <HelpBitInfo help={helpParent} bit={helpBit} onSave={localOnUnsave}/>;
+          } else {
+            // This is an accommodation
+            const accommodation = item as Accommodation;
+            element = <AccommodationInfo accommodation={accommodation} onSave={localOnUnsave}/>
+          }
+
+          return (
+            <div key={`saves${i}`}>
+              {element}
+              {divider ? <HorizontalDivider color={COLOR_SAVES} thickness={3}/> : null}
+            </div>
+          )
+        })}
+      </div>
+    );
+  } else {
+    body = (
+      <div>
+        <Text text={'Nothing here yet! You can save something if it has this icon: '}/>
+        <Icon img={ICONS.unsaved}/>
+      </div>
+    );
+  }
+
+  return (
+    <Section name={'My Saves'} color={COLOR_SAVES}>
+      {body}
+    </Section>
+  );
+}
+
 function Home({
   shownDay
 }: {
@@ -835,6 +1256,42 @@ function Home({
 }) {
   const [day, setDay] = useState(shownDay);
   const [dayIndex, setDayIndex] = useState<number>(getDayIndex(shownDay));
+  const [saves, setSaves] = useState();
+  const [loaded, setLoaded] = useState(false);
+
+  if (!loaded) {
+    const savesRaw = localStorage.getItem(LOCAL_STORAGE_SAVES);
+
+    if (!savesRaw) {
+      localStorage.setItem(LOCAL_STORAGE_SAVES, JSON.stringify({}));
+    }
+
+    setSaves(JSON.parse(savesRaw!));
+    setLoaded(true);
+  }
+
+  const onSaveItem = ({
+    key,
+    item,
+    isRemoval
+  }: OnSaveArgs) => {
+    const savesRaw = localStorage.getItem(LOCAL_STORAGE_SAVES);
+    if (!savesRaw) {
+      localStorage.setItem(LOCAL_STORAGE_SAVES, JSON.stringify({}));
+    }
+
+    const saves = JSON.parse(savesRaw!);
+
+    if (isRemoval) {
+      saves[key] = undefined;
+      delete saves[key];
+    } else {
+      saves[key] = item;
+    }
+
+    localStorage.setItem(LOCAL_STORAGE_SAVES, JSON.stringify(saves));
+    setSaves(saves);
+  };
 
   const daysLength = Object.keys($TRIP.days).length;
   const onNextDay = () => {
@@ -844,7 +1301,7 @@ function Home({
       setDayIndex(newDayIndex);
       setDay(newDay);
     }
-  }
+  };
 
   const onPreviousDay = () => {
     if (dayIndex > 0) {
@@ -853,11 +1310,20 @@ function Home({
       setDayIndex(newDayIndex);
       setDay(newDay);
     }
-  }
+  };
+
+  const onGoToToday = () => {
+    const today = getDayFromTrip();
+    setDay(today);
+    setDayIndex(getDayIndex(today));
+  };
 
   const containerStyle: CSS = {
     margin: "1%"
   };
+
+  const accommodations = Object.values($TRIP.accommodations);
+  const accommodationsLength = accommodations.length;
 
   return (
     <div style={containerStyle}>
@@ -872,16 +1338,46 @@ function Home({
       />
       <Today shownDay={day}/>
       {dayIndex > 0 ? <Button label={'Previous Day'} type={'nextprev-button'} onClick={onPreviousDay}/> : null}
-      <InlineSpace size={4}/>
+      <InlineSpace size={6}/>
+      {!isDayToday(day) ?
+        <>
+          {dayIndex > 0 ? <Button label={'Today'} type={'nextprev-button'} onClick={onGoToToday}/> : null}
+          <InlineSpace size={6}/>
+        </>
+        :
+        null
+      }
       {dayIndex < daysLength - 1 ? <Button label={'Next Day'} type={'nextprev-button'} onClick={onNextDay}/> : null}
       <Header text={day.itinerary.locations.join(', ')} type={'h2'}/>
       <TodayAccommodation shownDay={day}/>
       <TodayItinerary shownDay={day}/>
       <BlockSpace size={12}/>
+      {$TRIP.goto.map((goto, i) => {
+        const space = i < $TRIP.goto.length - 1;
+        return (
+          <InlineContainer key={`${goto.link}`}>
+            <Icon img={ICONS[goto.icon]} subtitle={goto.subheader} link={goto.link} size={60} />
+            {space ? <InlineSpace size={6}/> : null}
+          </InlineContainer>
+        );
+      })}
+      <BlockSpace size={8}/>
       <section>
-        <Phrasebook phrases={$TRIP.phrasebook}/>
+        <Phrasebook phrases={$TRIP.phrasebook} onSave={onSaveItem}/>
       </section>
-      {$TRIP.help.map((help) => <HelpSection key={help.name} help={help}/>)}
+      {$TRIP.help.map((help) => <HelpSection key={help.name} help={help} onSave={onSaveItem}/>)}
+      <Section name={'All Accommodations'} color={COLOR_ACCOMMODATION_PRIMARY}>
+        {accommodations.map((accommodation, i) => {
+          const divider = i < accommodationsLength - 1;
+          return (
+            <div key={`aa${accommodation.name}${i}`}>
+              <AccommodationInfo accommodation={accommodation} onSave={onSaveItem}/>
+              {divider ? <HorizontalDivider color={COLOR_ACCOMMODATION_PRIMARY} thickness={3}/> : null}
+            </div>
+          );
+        })}
+      </Section>
+      {saves ? <Saves saves={saves} onUnsave={onSaveItem}/> : null}
     </div>
   );
 }

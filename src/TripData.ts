@@ -1,6 +1,8 @@
+import type {IconName} from "./App.tsx";
+
 export type Timestamp = number;
 
-export type Icon = string; // TODO probably SVG, not string
+export type Icon = IconName; // TODO probably SVG, not string
 
 export type AccommodationType = 'airbnb' | 'hotel';
 
@@ -43,6 +45,7 @@ export type ItineraryItem = {
   isSuggestion: boolean;
   thing: string | Suggestion;
   canSearch: boolean;
+  link?: string;
 };
 
 export type Itinerary = {
@@ -60,6 +63,7 @@ export type Day = {
 export type HeaderPosition = 'top' | 'left';
 
 export type HelpBit = {
+  id: string;
   header?: string;
   headerPosition?: HeaderPosition;
   body: string[];
@@ -70,6 +74,8 @@ export type Help = {
   icon?: Icon;
   bits: HelpBit[];
   color: string;
+  titleColor: string;
+  subtitleColor: string;
 };
 
 export type GoTo = {
@@ -143,15 +149,18 @@ export function toGoTo({
 }
 
 export function toHelpBit({
+  id,
   header,
   headerPosition = 'top',
   body,
 }:{
+  id: string;
   header?: string;
   headerPosition?: HeaderPosition;
   body: string[];
 }): HelpBit {
   return {
+    id,
     header,
     headerPosition,
     body,
@@ -163,17 +172,23 @@ export function toHelp({
   icon,
   bits,
   color,
+  titleColor = "#FFF",
+  subtitleColor,
 }:{
   name: string;
   icon?: Icon;
   bits: HelpBit[];
   color: string;
+  titleColor?: string;
+  subtitleColor?: string;
 }): Help {
   return {
     name,
     icon,
     bits,
     color,
+    titleColor,
+    subtitleColor: subtitleColor ?? color,
   }
 }
 
@@ -263,17 +278,20 @@ export function toItineraryItem({
   thing,
   isSuggestion = false,
   canSearch = true,
+  link,
 }:{
   time?: string;
   thing: string | SuggestionId;
   isSuggestion?: boolean;
   canSearch?: boolean;
+  link?: string;
 }): ItineraryItem {
   return {
     time,
     isSuggestion,
     thing,
     canSearch,
+    link,
   };
 }
 
