@@ -51,6 +51,7 @@ export type ItineraryItem = {
 export type Itinerary = {
   locations: string[];
   items: ItineraryItem[];
+  image?: string;
 };
 
 export type Day = {
@@ -297,14 +298,17 @@ export function toItineraryItem({
 
 export function toItinerary({
   locations,
-  items
+  items,
+  image,
 }:{
   locations: string[];
   items: ItineraryItem[];
+  image?: string;
 }): Itinerary {
   return {
     locations,
-    items
+    items,
+    image
   }
 }
 

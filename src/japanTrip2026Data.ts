@@ -261,7 +261,7 @@ export const Japan2026TripData: Trip = {
       day: "10/7/2026",
       accommodationIds: ['a_kyoto'],
       itinerary: toItinerary({
-        locations: [KYOTO],
+        locations: [KYOTO, NARA],
         items: [],
       }),
       suggestionIds: [
@@ -272,7 +272,7 @@ export const Japan2026TripData: Trip = {
       day: "10/8/2026",
       accommodationIds: ['a_kyoto'],
       itinerary: toItinerary({
-        locations: [KYOTO],
+        locations: [KYOTO, OSAKA],
         items: [],
       }),
       suggestionIds: [
@@ -316,7 +316,7 @@ export const Japan2026TripData: Trip = {
       day: "10/12/2026",
       accommodationIds: ['a_tokyo2'],
       itinerary: toItinerary({
-        locations: [],
+        locations: [TOKYO],
         items: [],
       }),
       suggestionIds: [

@@ -1338,10 +1338,10 @@ function Home({
       />
       <Today shownDay={day}/>
       {dayIndex > 0 ? <Button label={'Previous Day'} type={'nextprev-button'} onClick={onPreviousDay}/> : null}
-      <InlineSpace size={6}/>
+      {dayIndex> 0 ? <InlineSpace size={6}/> : null}
       {!isDayToday(day) ?
         <>
-          {dayIndex > 0 ? <Button label={'Today'} type={'nextprev-button'} onClick={onGoToToday}/> : null}
+          <Button label={'Today'} type={'nextprev-button'} onClick={onGoToToday}/>
           <InlineSpace size={6}/>
         </>
         :
