@@ -289,7 +289,7 @@ export const Japan2026TripData: Trip = {
       description: 'Iconic, lit-up canal district in the center of Osaka, full of shops and good eats.',
       where: OSAKA,
       mapLink: 'https://maps.app.goo.gl/iBGTVmw5R8PXYNXz9',
-      requiredLevel: REQUIRED_LEVEL_TEXT["0"]
+      requiredLevel: REQUIRED_LEVEL_TEXT["1"]
     }),
     umedaSkyBuilding: toSuggestion({
       type: 'place',
