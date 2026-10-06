@@ -355,11 +355,8 @@ export const Japan2026TripData: Trip = {
             isSuggestion: true,
           }),
           toItineraryItem({
-            thing: 'Lunch',
-            canSearch: false,
-          }),
-          toItineraryItem({
-            thing: 'Rest at Airbnb',
+            thing: 'wakaran',
+            isSuggestion: true,
             canSearch: false,
           }),
           toItineraryItem({
