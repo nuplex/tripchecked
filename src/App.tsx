@@ -1032,9 +1032,11 @@ function TodayItinerary({
     setShowSuggestions(!showSuggestions);
   };
 
+  const hasItineraryItems = shownDay.itinerary.items.length > 0;
+
   const containerStyle: CSS = {
     padding: "8px",
-    border: 'dashed 2px #999',
+    border: hasItineraryItems ? 'dashed 2px #999' : undefined,
   };
 
   const hasSuggestions = shownDay.suggestions.length > 0;
