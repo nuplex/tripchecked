@@ -181,6 +181,15 @@ export const Japan2026TripData: Trip = {
       mapLink: 'https://maps.app.goo.gl/5XS453BHfdcLRNLp6',
       requiredLevel: REQUIRED_LEVEL_TEXT["2"]
     }),
+    wakaran: toSuggestion({
+      type: 'lunch',
+      id: 'wakaran',
+      name: 'Wakaran',
+      description: 'Teishoku & Syokudo Restaurant',
+      where: KYOTO,
+      mapLink: 'https://maps.app.goo.gl/fWjJnvPTu1ehjtxs9',
+      requiredLevel: REQUIRED_LEVEL_TEXT["0"]
+    }),
     kyotoBambooForest: toSuggestion({
       type: 'park',
       id: 'kyotoBambooForest',
@@ -354,11 +363,11 @@ export const Japan2026TripData: Trip = {
             canSearch: false,
           }),
           toItineraryItem({
-            thing: 'kiyomizuDera',
+            thing: 'yasakaPagoda',
             isSuggestion: true,
           }),
           toItineraryItem({
-            thing: 'yasakaPagoda',
+            thing: 'kiyomizuDera',
             isSuggestion: true,
           }),
           toItineraryItem({
