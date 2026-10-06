@@ -23,6 +23,8 @@ type ButtonType = 'text-button' | 'standard-button' | 'nextprev-button';
 
 type IconShape = 'round_square' | 'circle' | 'square';
 
+type Saveable = Phrase | HelpBit | Suggestion | Accommodation;
+
 const $TRIP: Trip = Japan2026TripData;
 
 const DATE_FORMAT_MONTH_DAY = "MMM D";
@@ -33,12 +35,13 @@ const COLOR_PHRASEBOOK_PRIMARY = "#cc5757";
 const COLOR_ACCOMMODATION_PRIMARY = "#ecc30b";
 const COLOR_SAVES = "#6153CC";
 const COLOR_SAVED = "#ecc30b";
+const COLOR_ALL_SUGGESTIONS = "#f665a1";
 
 const LOCAL_STORAGE_SAVES = 'saves';
 
 type OnSaveArgs = {
   key: string;
-  item: Phrase | HelpBit | Suggestion | Accommodation | null;
+  item: Saveable | null;
   isRemoval: boolean;
 };
 
@@ -57,7 +60,8 @@ export type IconName =
   | 'logo_GoogleTranslate'
   | 'logo_WhatsApp'
   | 'saved'
-  | 'unsaved';
+  | 'unsaved'
+  | 'shop';
 const ICONS: Record<IconName, JSX.Element> = {
   accommodation:
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#1f1f1f" viewBox="0 -960 960 960">
@@ -141,20 +145,26 @@ const ICONS: Record<IconName, JSX.Element> = {
     </svg>,
   saved: <span style={{color: COLOR_SAVED}}>★</span>,
   unsaved: <span style={{color: '#333'}}>☆</span>,
+  shop:
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#1f1f1f" viewBox="0 -960 960 960">
+      <path d="M223.5-103.5Q200-127 200-160t23.5-56.5T280-240t56.5 23.5T360-160t-23.5 56.5T280-80t-56.5-23.5m400 0Q600-127 600-160t23.5-56.5T680-240t56.5 23.5T760-160t-23.5 56.5T680-80t-56.5-23.5M246-720l96 200h280l110-200zm-38-80h590q23 0 35 20.5t1 41.5L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68-39.5t-2-78.5l54-98-144-304H40v-80h130zm134 280h280z"/>
+    </svg>,
 };
 
-export function getSgt(id: SuggestionId): Suggestion {
+function getSgt(id: SuggestionId): Suggestion {
   return $TRIP.suggestions[id];
 }
 
-export function getAcc(id: AccommodationId): Accommodation {
+function getAcc(id: AccommodationId): Accommodation {
   return $TRIP.accommodations[id];
 }
 
 function getEmojiForSuggestionType(type: SuggestionType): string {
   switch (type) {
     case "food":
-      return '🍴';
+      return '🍔';
+    case "restaurant":
+      return '🍽️'
     case "breakfast":
       return '🥞';
     case "lunch":
@@ -171,6 +181,10 @@ function getEmojiForSuggestionType(type: SuggestionType): string {
       return '🛍️';
     case "place":
       return '🗺️';
+    case "park":
+      return '🌳'
+    case "temple":
+      return '⛩️'
     case "other":
     default:
       return '';
@@ -232,6 +246,29 @@ function getSearchLink(term: string) {
   return encodeURI(`https://www.google.com/search?q=${term}`);
 }
 
+function getAllSuggestionsFilter(suggestions: Suggestion[]) {
+  const filters: string[] = [];
+  suggestions.forEach((s) => {
+    if (s.where && !filters.includes(s.where)) filters.push(s.where);
+    if (s.type && !filters.includes(s.type)) filters.push(s.type);
+    if (!filters.includes(s.requiredLevel)) filters.push(s.requiredLevel);
+  });
+  return filters;
+}
+
+function canShowSuggestion(suggestion: Suggestion, activeFilters: string[]) {
+  let i = 0;
+  while (i < activeFilters.length) {
+    const filter = activeFilters[i];
+    if (suggestion.type === filter || suggestion.where === filter || suggestion.requiredLevel === filter) {
+      return true;
+    }
+    i++;
+  }
+
+  return false;
+}
+
 function getHelpBitParent(bit: HelpBit): Help | undefined {
   return $TRIP.help.find((help) => help.bits.find((bitB) => bit.id === bitB.id));
 }
@@ -246,6 +283,15 @@ function isSaved(key: string) {
 
   return !!saves[key];
 }
+
+function isSuggestionSearchable(type: SuggestionType) {
+  return type !== 'cafe'
+    && type !== 'dinner'
+    && type !== 'breakfast'
+    && type !== 'food'
+    && type !== 'drinks'
+    && type !== 'lunch'
+} 
 
 function Date({
   timestamp,
@@ -672,6 +718,8 @@ function AccommodationInfo({
 }) {
   const saved = isSaved(accommodation.id);
 
+  const nearestTransitStationText = accommodation.nearestTransitName ? `(${accommodation.nearestTransitName})` : '';
+
   return (
     <div>
       <Header text={accommodation.name} type={'h3'}/>
@@ -697,7 +745,7 @@ function AccommodationInfo({
       />
       <LabelledElement
         label={<Icon img={ICONS.nearestTransit} link={accommodation.nearestTransit}/>}
-        element={<Text text={'See Nearest Transit Stop'} link={accommodation.nearestTransit}/>}
+        element={<Text text={`See Nearest Transit Stop ${nearestTransitStationText}`} link={accommodation.nearestTransit}/>}
         flex={true}
       />
       <Icon
@@ -715,7 +763,7 @@ function AccommodationInfo({
 }
 
 function TodayAccommodation({
-  shownDay
+  shownDay,
 }: {
   shownDay: Day
 }) {
@@ -762,6 +810,66 @@ function TodayAccommodation({
   );
 }
 
+function SuggestionInfo({
+  suggestion,
+  onSave,
+}: {
+  suggestion: Suggestion;
+  onSave: (args: OnSaveArgs) => void;
+}) {
+  const saved = isSaved(suggestion.id);
+
+  return (
+    <div>
+      <Header text={suggestion.name} type={'h3'}/>
+      <Text text={getEmojiForSuggestionType(suggestion.type)} fontSize={16}/>
+      {suggestion.description ? <InlineSpace size={4}/> : null}
+      {suggestion.description ? <Text text={suggestion.description} fontSize={16}/> : null}
+      {suggestion.where ? <Text text={suggestion.where} fontSize={14} isBlock={true}/> : null}
+      {suggestion.requiredLevel ?
+        <LabelledElement
+            label={<Text text={'Chance of Doing: '} fontSize={12}/>}
+            element={<Text text={suggestion.requiredLevel} bold={true}/>}
+            inline={true}
+        /> : null}
+      {suggestion.price ?
+        <LabelledElement
+          label={<Icon img={ICONS.shop}/>}
+          element={<Text text={suggestion.price.toString()} isBlock={true}/>}
+          flex={true}
+        /> : null}
+      {suggestion.link ?
+        <LabelledElement
+          label={<Icon img={ICONS.link} link={suggestion.link}/>}
+          element={<Text text={'Open Link'} link={suggestion.link} isBlock={true}/>}
+          flex={true}
+        /> : null}
+      {suggestion.mapLink ?
+        <LabelledElement
+          label={<Icon img={ICONS.mapLink} link={suggestion.mapLink}/>}
+          element={<Text text={'Open in Maps'} link={suggestion.mapLink} isBlock={true}/>}
+          flex={true}
+        /> : null}
+      {isSuggestionSearchable(suggestion.type) ?
+        <LabelledElement
+          label={<Icon img={ICONS.search} link={getSearchLink(suggestion.name)}/>}
+          element={<Text text={'Search on Google'} link={getSearchLink(suggestion.name)} isBlock={true}/>}
+          flex={true}
+        /> : null}
+      <Icon
+        img={saved ? ICONS.saved : ICONS.unsaved}
+        moreStyle={{
+          display: 'block',
+          fontSize: '24px',
+          height: '24px',
+          width: '24px',
+          lineHeight: '24px',
+        }}
+        onClick={() => {onSave({key: suggestion.id, item: suggestion, isRemoval: saved})}}/>
+    </div>
+  )
+}
+
 function Suggestion({
   suggestion,
   time,
@@ -787,13 +895,6 @@ function Suggestion({
     ...moreStyle
   };
 
-  const notSearchableType = suggestion.type === 'cafe'
-    || suggestion.type === 'dinner'
-    || suggestion.type === 'breakfast'
-    || suggestion.type === 'food'
-    || suggestion.type === 'drinks'
-    || suggestion.type === 'lunch'
-
   // TODO add other suggestion info like where when price etc
   return (
     <>
@@ -803,7 +904,7 @@ function Suggestion({
           <InlineSpace size={4}/>
           {time ? <Text text={time} type={'time'}/> : null}
         </InlineContainer>
-        {canSearch && !notSearchableType ? <Icon img={ICONS.search} link={getSearchLink(suggestionName)} marginRight={4}/> : null}
+        {canSearch && isSuggestionSearchable(suggestion.type) ? <Icon img={ICONS.search} link={getSearchLink(suggestionName)} marginRight={4}/> : null}
         {suggestion.link ? <Icon img={ICONS.link} link={suggestion.link} marginRight={4}/> : null}
         {suggestion.mapLink ? <Icon img={ICONS.mapLink} link={suggestion.mapLink} marginRight={4}/> : null}
         {suggestion.description ? <Icon img={ICONS.info} onClick={toggleInfo}/> : null}
@@ -830,6 +931,96 @@ function Suggestions({
   );
 }
 
+function Filter({
+  name,
+  isActive,
+  onSelect,
+  color,
+  textColor = "#333",
+  activeTextColor ="#fff",
+}: {
+  name: string;
+  isActive: boolean;
+  onSelect: (ars: any) => void;
+  color: string;
+  textColor?: string;
+  activeTextColor?: string;
+}) {
+  const style: CSS = {
+    background: isActive ? color : '#fff',
+    display: "inline-block",
+    cursor: "pointer",
+    border: `solid 2px ${color}`,
+    borderRadius: '3px',
+    fontSize: "20px",
+    lineHeight: "20px",
+    color: isActive ? activeTextColor : textColor,
+    marginRight: '8px',
+    marginBottom: '8px',
+    minWidth: "60px",
+    paddingInline: "8px",
+    paddingBlock: "4px",
+    textAlign: "center"
+  };
+
+  return (
+    <div style={style} onClick={() => onSelect(name)}>{name}</div>
+  )
+}
+
+function AllSuggestions({
+  suggestions,
+  onSaveItem
+}: {
+  suggestions: Suggestion[];
+  onSaveItem: (args: OnSaveArgs) => void;
+}) {
+  // @ts-ignore
+  const [filters, setFilters] = useState<string[]>(getAllSuggestionsFilter(suggestions));
+  const [activeFilters, setActiveFilters] = useState<string[]>([]);
+
+  const onToggleFilter = (filter: string)=> {
+    if (activeFilters.includes(filter)) {
+      const newActiveFilters = activeFilters.filter((f) => f !== filter);
+      setActiveFilters(newActiveFilters);
+    } else {
+      const newActiveFilters = [...activeFilters, filter];
+      setActiveFilters(newActiveFilters);
+    }
+  }
+
+  const suggestionsLength = suggestions.length;
+
+  const noneOrAllSelected = activeFilters.length === 0 || activeFilters.length === filters.length;
+
+  return (
+    <Section name={'All Suggestions'} color={COLOR_ALL_SUGGESTIONS}>
+      <Text text={`Tap the word below to show only suggestions related to it.`} fontSize={14} isBlock={true}/>
+      <BlockSpace size={6}/>
+      {filters.map((filter, i) => {
+        const isActive = activeFilters.includes(filter);
+        return (
+          <Filter key={`asf${filter}${i}`} name={filter} onSelect={onToggleFilter} color={COLOR_ALL_SUGGESTIONS} isActive={isActive}/>
+        );
+      })}
+      <HorizontalDivider color={COLOR_ALL_SUGGESTIONS} thickness={3}/>
+      {suggestions.map((suggestion, i) => {
+        if (!canShowSuggestion(suggestion, activeFilters) && !noneOrAllSelected) {
+          return null;
+        }
+
+        const divider = i < suggestionsLength - 1;
+        return (
+          <div key={`as${suggestion.name}${i}`}>
+            <SuggestionInfo suggestion={suggestion} onSave={onSaveItem}/>
+            {divider ? <HorizontalDivider color={COLOR_ALL_SUGGESTIONS} thickness={3}/> : null}
+          </div>
+        );
+      })}
+    </Section>
+  )
+}
+
 function TodayItinerary({
   shownDay
 }: {
@@ -842,7 +1033,8 @@ function TodayItinerary({
   };
 
   const containerStyle: CSS = {
-    marginLeft: "12px"
+    padding: "8px",
+    border: 'dashed 2px #999',
   };
 
   const hasSuggestions = shownDay.suggestions.length > 0;
@@ -1184,7 +1376,7 @@ function Saves({
   saves,
   onUnsave,
 }: {
-  saves: Record<string, Phrase | Accommodation | HelpBit> | null;
+  saves: Record<string, Saveable> | null;
   onUnsave: (args: OnSaveArgs) => void;
 }) {
   const localOnUnsave = ({
@@ -1218,6 +1410,9 @@ function Saves({
               });
             }
             element = <HelpBitInfo help={helpParent} bit={helpBit} onSave={localOnUnsave}/>;
+          } else if ('requiredLevel' in item) {
+            const suggestion = item as Suggestion;
+            element = <SuggestionInfo suggestion={suggestion} onSave={localOnUnsave}/>
           } else {
             // This is an accommodation
             const accommodation = item as Accommodation;
@@ -1324,6 +1519,7 @@ function Home({
 
   const accommodations = Object.values($TRIP.accommodations);
   const accommodationsLength = accommodations.length;
+  const suggestions = Object.values($TRIP.suggestions);
 
   return (
     <div style={containerStyle}>
@@ -1362,10 +1558,12 @@ function Home({
         );
       })}
       <BlockSpace size={8}/>
+      {saves ? <Saves saves={saves} onUnsave={onSaveItem}/> : null}
       <section>
         <Phrasebook phrases={$TRIP.phrasebook} onSave={onSaveItem}/>
       </section>
       {$TRIP.help.map((help) => <HelpSection key={help.name} help={help} onSave={onSaveItem}/>)}
+      <AllSuggestions suggestions={suggestions} onSaveItem={onSaveItem}/>
       <Section name={'All Accommodations'} color={COLOR_ACCOMMODATION_PRIMARY}>
         {accommodations.map((accommodation, i) => {
           const divider = i < accommodationsLength - 1;
@@ -1377,7 +1575,6 @@ function Home({
           );
         })}
       </Section>
-      {saves ? <Saves saves={saves} onUnsave={onSaveItem}/> : null}
     </div>
   );
 }

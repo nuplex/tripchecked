@@ -21,9 +21,36 @@ export type Accommodation = {
   link: string;
   mapLink: string;
   nearestTransit?: string;
+  nearestTransitName?: string;
+  accessNotes?: string;
 };
 
-export type SuggestionType = 'food' | 'lunch' | 'dinner' | 'breakfast' | 'cafe' | 'shopping' | 'place' | 'drinks' | 'experience' | 'other';
+export type RequiredLevel =
+  'Will Do, Rain or Shine'
+  | 'Must Do, But Good Weather Required'
+  | 'Should Do, If Have Time'
+  | 'Want to Do'
+  | 'Good To Know'
+  | 'If Close By'
+  | 'Missed, Try For Again'
+  | `Missed, Won't Try Again`
+  | 'Already Done'
+
+export type RequiredLevelNumber = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
+
+export const REQUIRED_LEVEL_TEXT: Record<RequiredLevelNumber, RequiredLevel> = {
+  0: 'Already Done',
+  1: 'Will Do, Rain or Shine',
+  2: 'Must Do, But Good Weather Required',
+  3: 'Should Do, If Have Time',
+  4: 'Want to Do',
+  5: 'Good To Know',
+  6: 'If Close By',
+  7: 'Missed, Try For Again',
+  8: `Missed, Won't Try Again`,
+};
+
+export type SuggestionType = 'food' | 'restaurant' | 'lunch' | 'dinner' | 'breakfast' | 'cafe' | 'shopping' | 'place' | 'park' | 'temple' | 'drinks' | 'experience' | 'other';
 
 export type SuggestionId = string;
 
@@ -35,7 +62,7 @@ export type Suggestion = {
   where?: string;
   when?: string;
   price?: number;
-  required?: boolean; // Is this something definitely happening?
+  requiredLevel: RequiredLevel;
   link?: string;
   mapLink?: string;
 };
@@ -201,7 +228,7 @@ export function toSuggestion({
   where,
   when,
   price,
-  required,
+  requiredLevel,
   link,
   mapLink,
 }:{
@@ -212,7 +239,7 @@ export function toSuggestion({
   where?: string;
   when?: string;
   price?: number;
-  required?: boolean;
+  requiredLevel: RequiredLevel;
   link?: string;
   mapLink?: string;
 }): Suggestion {
@@ -224,7 +251,7 @@ export function toSuggestion({
     where,
     when,
     price,
-    required,
+    requiredLevel,
     link,
     mapLink,
   };
@@ -243,6 +270,8 @@ export function toAccommodation({
   link,
   mapLink,
   nearestTransit,
+  nearestTransitName,
+  accessNotes,
 }:{
   type: AccommodationType;
   id: string;
@@ -257,6 +286,8 @@ export function toAccommodation({
   link: string;
   mapLink: string;
   nearestTransit?: string;
+  nearestTransitName?: string;
+  accessNotes?: string;
 }): Accommodation {
   return {
     type,
@@ -271,6 +302,8 @@ export function toAccommodation({
     link,
     mapLink,
     nearestTransit,
+    nearestTransitName,
+    accessNotes,
   };
 }
 

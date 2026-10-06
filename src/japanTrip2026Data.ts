@@ -1,4 +1,5 @@
 import {
+  REQUIRED_LEVEL_TEXT,
   toAccommodation,
   toDay, toGoTo,
   toHelp, toHelpBit,
@@ -48,7 +49,8 @@ export const Japan2026TripData: Trip = {
       checkoutTime: "11:00 AM",
       link: 'https://www.airbnb.com/rooms/843063107872026876',
       mapLink: 'https://maps.app.goo.gl/9Hrv8RYbgjs98ox16',
-      nearestTransit: 'https://maps.app.goo.gl/rAeYpUT8fKRMD4XJ7'
+      nearestTransit: 'https://maps.app.goo.gl/rAeYpUT8fKRMD4XJ7',
+      nearestTransitName: 'Keisei Takasago Station',
     }),
     a_kyoto: toAccommodation({
       type: 'airbnb',
@@ -63,7 +65,9 @@ export const Japan2026TripData: Trip = {
       checkoutTime: "11:00 AM",
       link: 'https://www.airbnb.com/rooms/43083663',
       mapLink: 'https://goo.gl/maps/jeMTqUCfT9vyvpwv7',
-      nearestTransit: 'https://maps.app.goo.gl/6Jb5XAytNupKiMP69'
+      nearestTransit: 'https://maps.app.goo.gl/6Jb5XAytNupKiMP69',
+      nearestTransitName: 'Tōji Station',
+      accessNotes: "Front Door Code is '9292*'"
     }),
     a_shiga: toAccommodation({
       type: 'hotel',
@@ -78,7 +82,8 @@ export const Japan2026TripData: Trip = {
       checkoutTime: "10:00 AM",
       link: 'https://ryokusuitei.com/',
       mapLink: 'https://maps.app.goo.gl/AGTHvoHK5QYbCJqk7',
-      nearestTransit: 'https://maps.app.goo.gl/qmHpBvKm5ooGeG1v9'
+      nearestTransit: 'https://maps.app.goo.gl/qmHpBvKm5ooGeG1v9',
+      nearestTransitName: 'Ogoto Onsen Station',
     }),
     a_tokyo2: toAccommodation({
       type: 'airbnb',
@@ -94,6 +99,7 @@ export const Japan2026TripData: Trip = {
       link: 'https://www.airbnb.com/l/vPAETgOm?s=67&unique_share_id=fbf04ccd-cce8-4e9e-b6bf-a4f900656197',
       mapLink: 'https://goo.gl/maps/jeMTqUCfT9vyvpwv7',
       nearestTransit: 'https://maps.app.goo.gl/1XdbFGx12Tqx9Y4D9',
+      nearestTransitName: 'Minowa Station'
     })
   },
   suggestions: {
@@ -103,21 +109,25 @@ export const Japan2026TripData: Trip = {
       name: 'Tokiwa',
       description: 'Teishoku restaurant',
       where: 'Katsuhika-ku',
-      mapLink: 'https://maps.app.goo.gl/5xKfzJ3oC2PDrQ9Z6'
+      mapLink: 'https://maps.app.goo.gl/5xKfzJ3oC2PDrQ9Z6',
+      requiredLevel: REQUIRED_LEVEL_TEXT["8"]
     }),
     mintleaf: toSuggestion({
       type: 'drinks',
       id: 'mintleaf',
       name: 'Mint Leaf mojito bar',
+      description: 'A bar serving dozens of different mojitos.',
       where: 'Roppongi',
-      mapLink: 'https://maps.app.goo.gl/eDWscDNWmVrENzuE8'
+      mapLink: 'https://maps.app.goo.gl/eDWscDNWmVrENzuE8',
+      requiredLevel: REQUIRED_LEVEL_TEXT["4"]
     }),
     michinori: toSuggestion({
       type: 'dinner',
       id: 'michinori',
       name: 'michinori',
       where: 'Shibuya',
-      mapLink: 'https://maps.app.goo.gl/fT5g2nPicvyxXJxK6'
+      mapLink: 'https://maps.app.goo.gl/fT5g2nPicvyxXJxK6',
+      requiredLevel: REQUIRED_LEVEL_TEXT["0"]
     }),
     unagiEbisu: toSuggestion({
       type: 'dinner',
@@ -125,22 +135,97 @@ export const Japan2026TripData: Trip = {
       name: 'Unagi Yondaime Kikukawa Yebisu Garden Place',
       description: 'Unagi (Eel) Restaurant on a High Floor',
       where: 'Ebisu',
-      mapLink: 'https://maps.app.goo.gl/HceziawAgLLMSBFT8'
+      mapLink: 'https://maps.app.goo.gl/HceziawAgLLMSBFT8',
+      requiredLevel: REQUIRED_LEVEL_TEXT["0"]
     }),
     yasakaPagoda: toSuggestion({
       type: 'place',
       id: 'yasakaPagoda',
       name: 'Hōkan-ji Temple (Yasaka Pagoda)',
       where: 'Kyoto',
-      mapLink: 'https://maps.app.goo.gl/Z8uCBmyuGGPp2hDWA'
+      mapLink: 'https://maps.app.goo.gl/Z8uCBmyuGGPp2hDWA',
+      requiredLevel: REQUIRED_LEVEL_TEXT["2"],
     }),
     tokyoStation: toSuggestion({
       type: 'place',
       id: 'tokyoStation',
       name: 'Tokyo Station',
       where: 'Tokyo',
-      mapLink: 'https://maps.app.goo.gl/9gjbTn3DiuGt8Qjb7'
+      mapLink: 'https://maps.app.goo.gl/9gjbTn3DiuGt8Qjb7',
+      requiredLevel: REQUIRED_LEVEL_TEXT["4"]
     }),
+    pelgag: toSuggestion({
+      type: 'dinner',
+      id: 'pelgag',
+      name: 'PELGAG',
+      description: 'Restaurant serving Thai-Japanese curry rice.',
+      where: 'Kyoto-Kawaramachi',
+      mapLink: 'https://maps.app.goo.gl/N1KaQmQhX4aSn59BA',
+      requiredLevel: REQUIRED_LEVEL_TEXT["0"]
+    }),
+    teramachi: toSuggestion({
+      type: 'place',
+      id: 'teramachi',
+      name: 'Teramachi Shopping Street',
+      description: `Lagre covered shopping arcade in Kyoto's shopping district`,
+      where: 'Kyoto-Kawaramachi',
+      mapLink: 'https://maps.app.goo.gl/tWV3KJ2KHs4eTLVRA',
+      requiredLevel: REQUIRED_LEVEL_TEXT["0"]
+    }),
+    goldenTemple: toSuggestion({
+      type: 'temple',
+      id: 'goldenTemple',
+      name: 'Kinkaku-ji (Golden Temple)',
+      description: 'A temple said to have a gold shine.',
+      where: 'Kyoto',
+      mapLink: 'https://maps.app.goo.gl/5XS453BHfdcLRNLp6',
+      requiredLevel: REQUIRED_LEVEL_TEXT["2"]
+    }),
+    kyotoBambooForest: toSuggestion({
+      type: 'park',
+      id: 'kyotoBambooForest',
+      name: 'Arashiyama Bamboo Forest',
+      description: 'Quiet and large bamboo forest.',
+      where: KYOTO,
+      mapLink: 'https://maps.app.goo.gl/UQn7reXa7PfiByFt8',
+      requiredLevel: REQUIRED_LEVEL_TEXT["2"]
+    }),
+    kiyomizuDera: toSuggestion({
+      type: 'temple',
+      id: 'kiyomizuDera',
+      name: 'Kiyomizu-dera',
+      description: `Mountain-side temple complex with sweeping views of Kyoto city.`,
+      where: KYOTO,
+      mapLink: 'https://maps.app.goo.gl/LiYsFBVdULgoTVSy9',
+      requiredLevel: REQUIRED_LEVEL_TEXT["3"]
+    }),
+    fushimiInari: toSuggestion({
+      type: 'temple',
+      id: 'fushimiInari',
+      name: 'Fushimi Inari Taisha',
+      description: `Kyoto's famous hillside temple complex.`,
+      where: KYOTO,
+      mapLink: 'https://maps.app.goo.gl/o3D82FjUyEmbjvmr9',
+      requiredLevel: REQUIRED_LEVEL_TEXT["2"]
+    }),
+    naraPark: toSuggestion({
+      type: 'park',
+      id: 'naraPark',
+      name: 'Nara Park',
+      description: `Watch and feed deer, and take a scenic stroll, in this large, park of an historical capital.`,
+      where: NARA,
+      mapLink: 'https://maps.app.goo.gl/ExmwXLwe5KbgyyGy5',
+      requiredLevel: REQUIRED_LEVEL_TEXT["2"]
+    }),
+    nigatsuDo: toSuggestion({
+      type: 'temple',
+      id: 'nigatsuDo',
+      name: 'Nigatsu-do',
+      description: 'A temple within Nara Park, offering panaramic views of Nara and its valley. Great for sunset.',
+      where: 'Nara Park',
+      mapLink: 'https://maps.app.goo.gl/wJnBbrCYJykBcQN58',
+      requiredLevel: REQUIRED_LEVEL_TEXT["3"]
+    })
   },
   days: {
     [+moment("10/3/2026")]: toDay({
@@ -232,12 +317,12 @@ export const Japan2026TripData: Trip = {
             canSearch: false
           }),
           toItineraryItem({
-            time: '~17:30',
-            thing: 'yasakaPagoda',
+            thing: 'teramachi',
             isSuggestion: true,
           }),
           toItineraryItem({
-            thing: 'Dinner',
+            thing: 'pelgag',
+            isSuggestion: true,
             canSearch: false
           })
         ],
@@ -251,18 +336,70 @@ export const Japan2026TripData: Trip = {
       accommodationIds: ['a_kyoto'],
       itinerary: toItinerary({
         locations: [KYOTO],
-        items: [],
+        items: [
+          toItineraryItem({
+            thing: 'goldenTemple',
+            isSuggestion: true,
+          }),
+          toItineraryItem({
+            thing: 'kyotoBambooForest',
+            isSuggestion: true,
+          }),
+          toItineraryItem({
+            thing: 'Lunch',
+            canSearch: false,
+          }),
+          toItineraryItem({
+            thing: 'Rest at Airbnb',
+            canSearch: false,
+          }),
+          toItineraryItem({
+            thing: 'kiyomizuDera',
+            isSuggestion: true,
+          }),
+          toItineraryItem({
+            thing: 'yasakaPagoda',
+            isSuggestion: true,
+          }),
+          toItineraryItem({
+            thing: 'Dinner',
+            canSearch: false,
+          }),
+        ],
       }),
-      suggestionIds: [
-
-      ]
+      suggestionIds: []
     }),
     [+moment("10/7/2026")]: toDay({
       day: "10/7/2026",
       accommodationIds: ['a_kyoto'],
       itinerary: toItinerary({
         locations: [KYOTO, NARA],
-        items: [],
+        items: [
+          toItineraryItem({
+            thing: 'fushimiInari',
+            isSuggestion: true,
+          }),
+          toItineraryItem({
+            thing: 'Early Lunch',
+            canSearch: false,
+          }),
+          toItineraryItem({
+            thing: 'Kyoto → Nara',
+            canSearch: false,
+          }),
+          toItineraryItem({
+            thing: 'naraPark',
+            isSuggestion: true,
+          }),
+          toItineraryItem({
+            thing: 'nigatsuDo',
+            isSuggestion: true,
+          }),
+          toItineraryItem({
+            thing: 'Dinner',
+            canSearch: false,
+          }),
+        ],
       }),
       suggestionIds: [
 
@@ -513,7 +650,7 @@ export const Japan2026TripData: Trip = {
     toPhrase({
       term: 'gomennasai',
       translated: ['sorry'],
-      pronunciation: ['soo-mee-mah-sehn'],
+      pronunciation: ['goh-mehn-nah-sah-ee'],
       tags: ['essential'],
       notes: [`Same usage as in English`],
       nativeScript: 'ごめんなさい'
