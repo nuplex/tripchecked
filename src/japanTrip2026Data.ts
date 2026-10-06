@@ -301,6 +301,51 @@ export const Japan2026TripData: Trip = {
       mapLink: 'https://maps.app.goo.gl/6sh6z5FBofhWhS7U7',
       requiredLevel: REQUIRED_LEVEL_TEXT["2"]
     }),
+    dennys: toSuggestion({
+      id: 'dennys',
+      type: 'restaurant',
+      name: `Denny's`,
+      description: `Japanese Denny's is far more different than you can imagine`,
+      link: 'https://www.dennys.jp/language/en/',
+      requiredLevel: REQUIRED_LEVEL_TEXT["1"]
+    }),
+    eatRamen: toSuggestion({
+      id: "eatRamen",
+      type: 'food',
+      name: "Have some ramen!",
+      requiredLevel: REQUIRED_LEVEL_TEXT["1"],
+      searchTerm: 'What is Ramen',
+    }),
+    eatJapaneseCurry: toSuggestion({
+      id: "eatJapaneseCurry",
+      type: 'food',
+      name: "Have some Japanese curry!",
+      requiredLevel: REQUIRED_LEVEL_TEXT["1"],
+      searchTerm: 'What is Japanese Curry',
+    }),
+    eatSushi: toSuggestion({
+      id: "eatSushi",
+      type: 'food',
+      name: "Have some sushi in Japan!",
+      requiredLevel: REQUIRED_LEVEL_TEXT["1"],
+      searchTerm: 'What is Sushi',
+    }),
+    eatTakoyaki: toSuggestion({
+      id: "eatTakoyaki",
+      type: 'food',
+      name: "Have some Takoyaki!",
+      description: "Takoyaki is a fried ball of dough, usually containing octopus. It varies by region in Japan, from a fully bready texture to somewhat runny. Tako is 'octopus', Yaki is 'fried'",
+      requiredLevel: REQUIRED_LEVEL_TEXT["3"],
+      searchTerm: 'What is Takoyaki'
+    }),
+    eatOkonomiyaki: toSuggestion({
+      id: "eatOkonomiyaki",
+      type: 'food',
+      name: "Have some Okonomiyaki!",
+      description: "Okonomiyaki is a cooked on flat-top grill, with the basic components of batter and cabbage, and then your choice of bean sprouts, meat, fish, and other options, and then finally topped off with Japanese mayo and okonomiyaki sauce.",
+      requiredLevel: REQUIRED_LEVEL_TEXT["3"],
+      searchTerm: 'What is Okonomiyaki',
+    }),
   },
   days: {
     [+moment("10/3/2026")]: toDay({
@@ -482,7 +527,7 @@ export const Japan2026TripData: Trip = {
         ],
       }),
       suggestionIds: [
-
+        'eatRamen'
       ]
     }),
     [+moment("10/8/2026")]: toDay({
@@ -530,7 +575,7 @@ export const Japan2026TripData: Trip = {
         ],
       }),
       suggestionIds: [
-
+        'eatTakoyaki'
       ]
     }),
     [+moment("10/9/2026")]: toDay({

@@ -65,6 +65,7 @@ export type Suggestion = {
   requiredLevel: RequiredLevel;
   link?: string;
   mapLink?: string;
+  searchTerm?: string;
 };
 
 export type ItineraryItem = {
@@ -231,6 +232,7 @@ export function toSuggestion({
   requiredLevel,
   link,
   mapLink,
+  searchTerm,
 }:{
   type: SuggestionType;
   id: string;
@@ -242,6 +244,7 @@ export function toSuggestion({
   requiredLevel: RequiredLevel;
   link?: string;
   mapLink?: string;
+  searchTerm?: string;
 }): Suggestion {
   return {
     type,
@@ -254,6 +257,7 @@ export function toSuggestion({
     requiredLevel,
     link,
     mapLink,
+    searchTerm,
   };
 }
 

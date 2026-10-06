@@ -175,7 +175,7 @@ function getAcc(id: AccommodationId): Accommodation {
 function getEmojiForSuggestionType(type: SuggestionType): string {
   switch (type) {
     case "food":
-      return '🍔';
+      return '🍴';
     case "restaurant":
       return '🍽️'
     case "breakfast":
@@ -889,11 +889,13 @@ function Suggestion({
   suggestion,
   time,
   canSearch,
+  forceCanSearch,
   moreStyle,
 }: {
   suggestion: Suggestion;
   time?: string;
   canSearch?: boolean;
+  forceCanSearch?: boolean;
   moreStyle?: CSS;
 }) {
   const [showInfo, setShowInfo] = useState(false);
@@ -910,6 +912,11 @@ function Suggestion({
     ...moreStyle
   };
 
+  let searchable = canSearch && isSuggestionSearchable(suggestion.type);
+  if (forceCanSearch) {
+    searchable = true;
+  }
+
   // TODO add other suggestion info like where when price etc
   return (
     <>
@@ -919,7 +926,7 @@ function Suggestion({
           <InlineSpace size={4}/>
           {time ? <Text text={time} type={'time'}/> : null}
         </InlineContainer>
-        {canSearch && isSuggestionSearchable(suggestion.type) ? <Icon img={ICONS.search} link={getSearchLink(suggestionName)} marginRight={4}/> : null}
+        {searchable ? <Icon img={ICONS.search} link={getSearchLink(suggestion.searchTerm ?? suggestionName)} marginRight={4}/> : null}
         {suggestion.link ? <Icon img={ICONS.link} link={suggestion.link} marginRight={4}/> : null}
         {suggestion.mapLink ? <Icon img={ICONS.mapLink} link={suggestion.mapLink} marginRight={4}/> : null}
         {suggestion.description ? <Icon img={ICONS.info} onClick={toggleInfo}/> : null}
@@ -930,16 +937,18 @@ function Suggestion({
 }
 
 function Suggestions({
-  suggestionIds
+  suggestionIds,
+  forceCanSearch,
 }: {
-  suggestionIds: SuggestionId[]
+  suggestionIds: SuggestionId[];
+  forceCanSearch?: boolean;
 }) {
   return (
     <div>
       {suggestionIds.map((id, i) => {
         const suggestion = getSgt(id);
         return (
-          <Suggestion key={`sgs${suggestion.id}${i}`} suggestion={suggestion} canSearch={true}/>
+          <Suggestion key={`sgs${suggestion.id}${i}`} suggestion={suggestion} canSearch={true} forceCanSearch={forceCanSearch}/>
         );
       })}
     </div>
@@ -1094,7 +1103,7 @@ function TodayItinerary({
           }}
         />
         : null}
-      {(hasSuggestions && showSuggestions) ? <Suggestions suggestionIds={shownDay.suggestions}/> : null}
+      {(hasSuggestions && showSuggestions) ? <Suggestions suggestionIds={shownDay.suggestions} forceCanSearch={true}/> : null}
     </div>
   );
 }
