@@ -57,11 +57,12 @@ export type IconName =
   | 'translate'
   | 'search'
   | 'nearestTransit'
-  | 'logo_GoogleTranslate'
-  | 'logo_WhatsApp'
   | 'saved'
   | 'unsaved'
-  | 'shop';
+  | 'shop'
+  | 'logo_GoogleTranslate'
+  | 'logo_WhatsApp'
+  | 'logo_Splitwise';
 const ICONS: Record<IconName, JSX.Element> = {
   accommodation:
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#1f1f1f" viewBox="0 -960 960 960">
@@ -143,6 +144,18 @@ const ICONS: Record<IconName, JSX.Element> = {
       <path fill="url(#b)" d="M87.184 25.227c-33.733 0-61.166 27.423-61.178 61.13a61 61 0 0 0 9.349 32.535l1.455 2.313-6.179 22.558 23.146-6.069 2.235 1.324c9.387 5.571 20.15 8.517 31.126 8.523h.023c33.707 0 61.14-27.426 61.153-61.135a60.75 60.75 0 0 0-17.895-43.251 60.75 60.75 0 0 0-43.235-17.928"/>
       <path fill="#fff" fillRule="evenodd" d="M68.772 55.603c-1.378-3.061-2.828-3.123-4.137-3.176l-3.524-.043c-1.226 0-3.218.46-4.902 2.3s-6.435 6.287-6.435 15.332 6.588 17.785 7.506 19.013 12.718 20.381 31.405 27.75c15.529 6.124 18.689 4.906 22.061 4.6s10.877-4.447 12.408-8.74 1.532-7.971 1.073-8.74-1.685-1.226-3.525-2.146-10.877-5.367-12.562-5.981-2.91-.919-4.137.921-4.746 5.979-5.819 7.206-2.144 1.381-3.984.462-7.76-2.861-14.784-9.124c-5.465-4.873-9.154-10.891-10.228-12.73s-.114-2.835.808-3.751c.825-.824 1.838-2.147 2.759-3.22s1.224-1.84 1.836-3.065.307-2.301-.153-3.22-4.032-10.011-5.666-13.647"/>
     </svg>,
+  logo_Splitwise:
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 106 106">
+      <g fill="none" fillRule="evenodd">
+        <path fill="#fff" d="M96.593 99.345H9.408V31.773L53 6.605l43.593 25.168z"/>
+        <path stroke="#fff" strokeWidth="12" d="M96.593 99.834H9.408V32.262L53 7.094l43.593 25.168z"/>
+        <path fill="#1cc29f" d="m42.163 63.585 10.57-6.102-43.99-25.398v25.081c3.297-1.777 7.45-2.701 12.206-2.701 10.355 0 16.908 4.397 21.214 9.12M22.755 98.593c4.406 0 7.728-1.3 7.728-4.622 0-3.395-4.262-4.695-9.534-5.995-3.925-1.005-8.43-2.014-12.205-3.916v6.444c3.178 5.128 8.45 8.089 14.01 8.089"/>
+        <path fill="#52595f" d="m52.734 57.482 43.99 25.397V32.085z"/>
+        <path fill="#ace4d6" d="M96.723 32.085 52.733 6.687 8.744 32.085l43.99 25.397z"/>
+        <path fill="#373b3f" d="m52.733 57.482-10.57 6.103-11.331 6.543c-2.895-2.303-6.578-3.963-9.955-3.963-4.117 0-6.211 1.37-6.211 3.9 0 2.925 2.865 4.32 6.835 5.45.833.237 1.712.463 2.626.688 8.74 2.095 20.44 4.767 20.44 16.756 0 2.517-.53 5.025-1.69 7.314h53.846V82.88Z"/>
+        <path fill="#fff" d="M24.127 76.204a77 77 0 0 1-2.626-.69c-3.97-1.13-6.835-2.524-6.835-5.45 0-2.528 2.094-3.9 6.211-3.9 3.377 0 7.06 1.661 9.955 3.964l11.33-6.543c-4.306-4.723-10.858-9.121-21.213-9.121-4.756 0-8.908.925-12.205 2.702V84.06c3.775 1.902 8.28 2.91 12.205 3.916 5.272 1.3 9.534 2.6 9.534 5.995 0 3.323-3.323 4.622-7.728 4.622-5.561 0-10.834-2.96-14.011-8.09v9.77h34.132c1.16-2.289 1.69-4.797 1.69-7.314 0-11.989-11.7-14.662-20.439-16.755"/>
+      </g>
+    </svg>,
   saved: <span style={{color: COLOR_SAVED}}>★</span>,
   unsaved: <span style={{color: '#333'}}>☆</span>,
   shop:
@@ -185,6 +198,8 @@ function getEmojiForSuggestionType(type: SuggestionType): string {
       return '🌳'
     case "temple":
       return '⛩️'
+    case "tower":
+      return '🗼';
     case "other":
     default:
       return '';
@@ -790,7 +805,7 @@ function TodayAccommodation({
                 inline={true}
               />
               <InlineSpace size={6}/>
-              <Icon img={ICONS.accommodation} link={accommodation.link}/>
+              <Icon img={ICONS.link} link={accommodation.link}/>
               <InlineSpace size={4}/>
               <Icon img={ICONS.mapLink} link={accommodation.mapLink}/>
               <InlineSpace size={8}/>
@@ -995,7 +1010,7 @@ function AllSuggestions({
 
   return (
     <Section name={'All Suggestions'} color={COLOR_ALL_SUGGESTIONS}>
-      <Text text={`Tap the word below to show only suggestions related to it.`} fontSize={14} isBlock={true}/>
+      <Text text={`Tap the labels below to show only suggestions related to them.`} fontSize={14} isBlock={true}/>
       <BlockSpace size={6}/>
       {filters.map((filter, i) => {
         const isActive = activeFilters.includes(filter);

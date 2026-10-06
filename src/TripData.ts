@@ -50,7 +50,7 @@ export const REQUIRED_LEVEL_TEXT: Record<RequiredLevelNumber, RequiredLevel> = {
   8: `Missed, Won't Try Again`,
 };
 
-export type SuggestionType = 'food' | 'restaurant' | 'lunch' | 'dinner' | 'breakfast' | 'cafe' | 'shopping' | 'place' | 'park' | 'temple' | 'drinks' | 'experience' | 'other';
+export type SuggestionType = 'food' | 'restaurant' | 'lunch' | 'dinner' | 'breakfast' | 'cafe' | 'shopping' | 'place' | 'park' | 'temple' | 'drinks' | 'experience' | 'tower' | 'other';
 
 export type SuggestionId = string;
 

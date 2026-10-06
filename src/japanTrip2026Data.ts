@@ -33,6 +33,11 @@ export const Japan2026TripData: Trip = {
       icon: 'logo_WhatsApp',
       link: 'https://chat.whatsapp.com/IClKGJcwclgLJlD3IkY3BZ',
       subheader: 'WhatsApp Group'
+    }),
+    toGoTo({
+      icon: 'logo_Splitwise',
+      link: 'https://www.splitwise.com/join/Wp5Fje9z1pM+55amc?v=e',
+      subheader: 'Splitwise'
     })
   ],
   accommodations: {
@@ -234,7 +239,68 @@ export const Japan2026TripData: Trip = {
       where: 'Nara Park',
       mapLink: 'https://maps.app.goo.gl/wJnBbrCYJykBcQN58',
       requiredLevel: REQUIRED_LEVEL_TEXT["3"]
-    })
+    }),
+    kyotoStationSkyWalk: toSuggestion({
+      type: 'place',
+      id: 'kyotoStationSkyWalk',
+      name: 'Kyoto Sky Walk',
+      description: 'Walkways and a rooftop above busy Kyoto Station.',
+      where: KYOTO,
+      mapLink: 'https://maps.app.goo.gl/3FfNuvo6u3haNmRa8',
+      requiredLevel: REQUIRED_LEVEL_TEXT["3"]
+    }),
+    kyotoTower: toSuggestion({
+      type: 'place',
+      id: 'kyotoTower',
+      name: 'Kyoto Tower',
+      where: KYOTO,
+      mapLink: 'https://maps.app.goo.gl/utpsf29xtPaRM6AfA',
+      requiredLevel: REQUIRED_LEVEL_TEXT["4"],
+    }),
+    osakaCastle: toSuggestion({
+      type: 'park',
+      id: 'osakaCastle',
+      name: 'Osaka Castle',
+      where: OSAKA,
+      mapLink: 'https://maps.app.goo.gl/wNp1BxspngJ5fL5S6',
+      requiredLevel: REQUIRED_LEVEL_TEXT["2"]
+    }),
+    tennojiPark: toSuggestion({
+      type: 'park',
+      id: 'tennojiPark',
+      name: 'Tennoji Park',
+      where: OSAKA,
+      mapLink: 'https://maps.app.goo.gl/goqTup5sxKNucrAB8',
+      requiredLevel: REQUIRED_LEVEL_TEXT["3"]
+    }),
+    tsutenkaku: toSuggestion({
+      type: 'tower',
+      id: 'tsutenkaku',
+      name: 'Tsutentaku',
+      description: 'Retro tower located in the center of an old-style district.',
+      where: OSAKA,
+      mapLink: 'https://maps.app.goo.gl/qM6wTQQTqzmVjPZ97',
+      requiredLevel: REQUIRED_LEVEL_TEXT["3"]
+    }),
+    dotonbori: toSuggestion({
+      type: 'place',
+      id: 'dotonbori',
+      name: 'Dotonbori',
+      description: 'Iconic, lit-up canal district in the center of Osaka, full of shops and good eats.',
+      where: OSAKA,
+      mapLink: 'https://maps.app.goo.gl/iBGTVmw5R8PXYNXz9',
+      requiredLevel: REQUIRED_LEVEL_TEXT["0"]
+    }),
+    umedaSkyBuilding: toSuggestion({
+      type: 'place',
+      id: 'umedaSkyBuilding',
+      name: 'Umeda Sky Building',
+      description: 'Unique building with an unbeatable view of Osaka and the wider Kansai region.',
+      where: OSAKA,
+      link: 'https://www.skybldg.co.jp/en/',
+      mapLink: 'https://maps.app.goo.gl/6sh6z5FBofhWhS7U7',
+      requiredLevel: REQUIRED_LEVEL_TEXT["2"]
+    }),
   },
   days: {
     [+moment("10/3/2026")]: toDay({
@@ -351,13 +417,13 @@ export const Japan2026TripData: Trip = {
             isSuggestion: true,
           }),
           toItineraryItem({
-            thing: 'kyotoBambooForest',
-            isSuggestion: true,
-          }),
-          toItineraryItem({
             thing: 'wakaran',
             isSuggestion: true,
             canSearch: false,
+          }),
+          toItineraryItem({
+            thing: 'kyotoBambooForest',
+            isSuggestion: true,
           }),
           toItineraryItem({
             thing: 'yasakaPagoda',
@@ -386,10 +452,6 @@ export const Japan2026TripData: Trip = {
             isSuggestion: true,
           }),
           toItineraryItem({
-            thing: 'Early Lunch',
-            canSearch: false,
-          }),
-          toItineraryItem({
             thing: 'Kyoto → Nara',
             canSearch: false,
           }),
@@ -402,9 +464,21 @@ export const Japan2026TripData: Trip = {
             isSuggestion: true,
           }),
           toItineraryItem({
-            thing: 'Dinner',
+            thing: 'Eat Something',
             canSearch: false,
           }),
+          toItineraryItem({
+            thing: 'Nara → Kyoto',
+            canSearch: false,
+          }),
+          toItineraryItem({
+            thing: 'kyotoStationSkyWalk',
+            isSuggestion: true,
+          }),
+          toItineraryItem({
+            thing: 'kyotoTower',
+            isSuggestion: true,
+          })
         ],
       }),
       suggestionIds: [
@@ -416,7 +490,44 @@ export const Japan2026TripData: Trip = {
       accommodationIds: ['a_kyoto'],
       itinerary: toItinerary({
         locations: [KYOTO, OSAKA],
-        items: [],
+        items: [
+          toItineraryItem({
+            thing: 'Kyoto → Osaka',
+            canSearch: false,
+          }),
+          toItineraryItem({
+            thing: 'osakaCastle',
+            isSuggestion: true,
+          }),
+          toItineraryItem({
+            thing: 'Lunch',
+            canSearch: false,
+          }),
+          toItineraryItem({
+            thing: 'tennojiPark',
+            isSuggestion: true,
+          }),
+          toItineraryItem({
+            thing: 'tsutenkaku',
+            isSuggestion: true,
+          }),
+          toItineraryItem({
+            thing: 'dotonbori',
+            isSuggestion: true,
+          }),
+          toItineraryItem({
+            thing: 'umedaSkyBuilding',
+            isSuggestion: true,
+          }),
+          toItineraryItem({
+            thing: 'Dinner',
+            canSearch: false,
+          }),
+          toItineraryItem({
+            thing: 'Osaka → Kyoto',
+            canSearch: false,
+          })
+        ],
       }),
       suggestionIds: [
 
@@ -498,7 +609,11 @@ export const Japan2026TripData: Trip = {
           id: 'helpbit_jp1',
           body: [
             'Japanese is very easy to pronounce! In fact, if you read it like Igbo, its very close to that!',
-            "",
+          ]
+        }),
+        toHelpBit({
+          id: 'helpbit_jp1.1',
+          body: [
             "<b><u>a -> ah</u> like... ah</b>",
             "<b><u>i -> ee</u> like in b<u>ee</u></b>",
             "<b><u>e -> ay</u> like in b<u>ay</u></b>",
@@ -507,14 +622,24 @@ export const Japan2026TripData: Trip = {
             "",
             "<b>r -> spanish \"r\" or rolled r (but just rolled once)</b>",
             "<b>y -> like y in yes, never \"ee\" or \"ih\"</b>",
-            " ",
-            "things like <b>\"kyo\", \"ryo\", \"gya\" are NOT pronounced \"kiyo\" or \"riyo\"</b>. They are pronounced like \"kʰyo\" and \"rʰyo\". So Tokyo is not \"Tokiyo\" its \"Tokhyo\" or just Tokyo.",
+          ]
+        }),
+        toHelpBit({
+          id: 'helpbit_jp1.2',
+          body: [
+            "Things like <b>\"kyo\", \"ryo\", \"gya\" are NOT pronounced \"kiyo\" or \"riyo\"</b>. They are pronounced like \"kʰyo\" and \"rʰyo\". So Tokyo is not \"Tokiyo\" its \"Tokhyo\" or just Tokyo.",
             " ",
             "double letters like \"tt\" or \"cch\" means pause being for saying, like holding your breathe for a split second. So \"motto\" is like \"moh--toh\"",
             " ",
             "\"su\" in Japanese if not starting a word (so in the middle or end) often is pronounced just as an \"s\"",
             " ",
             `Japanese consonants like t, d, j, z, k, g are pronounced the same as in English. 'gi' is pronounced g-ee`,
+            "Japanese words are pronounced exactly as written. There's no hidden tricks like english. So the above guide is the same no matter what you're reading. Pronunciation does not change!"
+          ]
+        }),
+        toHelpBit({
+          id: 'helpbit_jp1.3',
+          body: [
             "Japanese words are pronounced exactly as written. There's no hidden tricks like english. So the above guide is the same no matter what you're reading. Pronunciation does not change!"
           ]
         }),
