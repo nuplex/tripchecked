@@ -30,6 +30,7 @@ const $TRIP: Trip = Japan2026TripData;
 const DATE_FORMAT_MONTH_DAY = "MMM D";
 const DATE_FORMAT_DOTW_DAY = "MMM Do";
 const DATE_FORMAT_COMPARE = "MM/D/YYYY";
+const DATE_FORMAT_DOTW_DAY2 = "ddd MMM Do";
 
 const COLOR_PHRASEBOOK_PRIMARY = "#cc5757";
 const COLOR_ACCOMMODATION_PRIMARY = "#ecc30b";
@@ -719,7 +720,7 @@ function Today({
   return (
     <LabelledElement
       label={<Text text={'Today is '} type={'small_header'}/>}
-      element={<Date timestamp={+today} format={DATE_FORMAT_DOTW_DAY} inline={true} bold={true} size="24px"/>}
+      element={<Date timestamp={+today} format={DATE_FORMAT_DOTW_DAY2} inline={true} bold={true} size="24px"/>}
     />
   );
 }
