@@ -243,7 +243,7 @@ export const Japan2026TripData: Trip = {
     kyotoStationSkyWalk: toSuggestion({
       type: 'place',
       id: 'kyotoStationSkyWalk',
-      name: 'Kyoto Sky Walk',
+      name: 'Kyoto Station Skyway',
       description: 'Walkways and a rooftop above busy Kyoto Station.',
       where: KYOTO,
       mapLink: 'https://maps.app.goo.gl/3FfNuvo6u3haNmRa8',
