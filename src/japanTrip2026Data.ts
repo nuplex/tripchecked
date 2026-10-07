@@ -240,6 +240,14 @@ export const Japan2026TripData: Trip = {
       mapLink: 'https://maps.app.goo.gl/wJnBbrCYJykBcQN58',
       requiredLevel: REQUIRED_LEVEL_TEXT["3"]
     }),
+    veganRamenNara: toSuggestion({
+      type: 'restaurant',
+      id: 'veganRamenNara',
+      name: 'Vegan Friendly Ramen by Playpen Friends',
+      where: 'Nara Park',
+      mapLink: 'https://maps.app.goo.gl/MtHXhNFfz48KX4R76',
+      requiredLevel: REQUIRED_LEVEL_TEXT["0"]
+    }),
     kyotoStationSkyWalk: toSuggestion({
       type: 'place',
       id: 'kyotoStationSkyWalk',
@@ -509,7 +517,8 @@ export const Japan2026TripData: Trip = {
             isSuggestion: true,
           }),
           toItineraryItem({
-            thing: 'Eat Something',
+            thing: 'veganRamenNara',
+            isSuggestion: true,
             canSearch: false,
           }),
           toItineraryItem({
