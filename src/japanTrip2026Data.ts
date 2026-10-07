@@ -718,6 +718,32 @@ export const Japan2026TripData: Trip = {
       color: '#3185fc',
       bits: [
         toHelpBit({
+          id: 'helpbit_tips3',
+          header: 'IC Cards',
+          body: [
+           'IC Cards (also known as a transit card) can be recharged and used in many places!',
+            'If you see the "IC" logo at a register, that means you can pay with your IC card. Just tell the staff "IC".',
+            'You can also charge IC cards in multiple places.',
+            'Inside the station, before the gates.',
+            'Inside the station, after the gates, at a "Fare Adjustment" machine',
+            'At some ATMs (7-11, Lawson, and any others that say it)',
+          ],
+        }),
+        toHelpBit({
+          id: 'helpbit_tips4',
+          header: 'Charging Your IC Card',
+          body: [
+            'The basic steps for charging your IC Card:',
+            `1. Change the language to 'English' by finding the 'Language' button and choosing it, or just pressing 'English' if displayed already.`,
+            '2. Insert your IC card if you do not see a spot to place the IC card down or inside. The insert location is almost always at the bottom right.',
+            `3. Look for the word 'チャージ', this means "charge", as in, charge the card. Select this option`,
+            `4. Select the amount you want to recharge. (You can also just insert money and it will automatically show which one you can select).`,
+            `5. Once you've loaded and selected the amount, the machine will load your card. DO NOT REMOVE YOUR CARD if it is placed down and not inserted.`,
+            '6. The machine will beep, or return your card, or show a graphic telling you to remove your card. You are done!',
+            '7. You may see an additional screen for receipt or confirmation. This will automatically go away, so you can ignore it.'
+          ],
+        }),
+        toHelpBit({
           id:'helpbit_tips1',
           header: 'Train Etiquette',
           body: [
