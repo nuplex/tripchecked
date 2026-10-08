@@ -526,10 +526,6 @@ export const Japan2026TripData: Trip = {
             canSearch: false,
           }),
           toItineraryItem({
-            thing: 'kyotoStationSkyWalk',
-            isSuggestion: true,
-          }),
-          toItineraryItem({
             thing: 'kyotoTower',
             isSuggestion: true,
           })
@@ -566,11 +562,11 @@ export const Japan2026TripData: Trip = {
             isSuggestion: true,
           }),
           toItineraryItem({
-            thing: 'dotonbori',
+            thing: 'umedaSkyBuilding',
             isSuggestion: true,
           }),
           toItineraryItem({
-            thing: 'umedaSkyBuilding',
+            thing: 'dotonbori',
             isSuggestion: true,
           }),
           toItineraryItem({
@@ -584,7 +580,8 @@ export const Japan2026TripData: Trip = {
         ],
       }),
       suggestionIds: [
-        'eatTakoyaki'
+        'eatTakoyaki',
+        'kyotoStationSkyWalk'
       ]
     }),
     [+moment("10/9/2026")]: toDay({
@@ -595,7 +592,7 @@ export const Japan2026TripData: Trip = {
         items: [],
       }),
       suggestionIds: [
-
+        'kyotoStationSkyWalk'
       ]
     }),
     [+moment("10/10/2026")]: toDay({
