@@ -550,16 +550,16 @@ export const Japan2026TripData: Trip = {
             isSuggestion: true,
           }),
           toItineraryItem({
-            thing: 'Lunch',
-            canSearch: false,
-          }),
-          toItineraryItem({
             thing: 'tennojiPark',
             isSuggestion: true,
           }),
           toItineraryItem({
             thing: 'tsutenkaku',
             isSuggestion: true,
+          }),
+          toItineraryItem({
+            thing: 'Lunch',
+            canSearch: false,
           }),
           toItineraryItem({
             thing: 'umedaSkyBuilding',
