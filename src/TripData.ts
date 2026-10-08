@@ -59,6 +59,7 @@ export type Suggestion = {
   id: SuggestionId;
   name: string;
   description?: string;
+  city?: string;
   where?: string;
   when?: string;
   price?: number;
@@ -66,6 +67,7 @@ export type Suggestion = {
   link?: string;
   mapLink?: string;
   searchTerm?: string;
+  tags?: string[];
 };
 
 export type ItineraryItem = {
@@ -226,6 +228,7 @@ export function toSuggestion({
   id,
   name,
   description,
+  city,
   where,
   when,
   price,
@@ -233,11 +236,13 @@ export function toSuggestion({
   link,
   mapLink,
   searchTerm,
+  tags,
 }:{
   type: SuggestionType;
   id: string;
   name: string;
   description?: string;
+  city?: string;
   where?: string;
   when?: string;
   price?: number;
@@ -245,12 +250,14 @@ export function toSuggestion({
   link?: string;
   mapLink?: string;
   searchTerm?: string;
+  tags?: string[];
 }): Suggestion {
   return {
     type,
     id,
     name,
     description,
+    city,
     where,
     when,
     price,
@@ -258,6 +265,7 @@ export function toSuggestion({
     link,
     mapLink,
     searchTerm,
+    tags,
   };
 }
 

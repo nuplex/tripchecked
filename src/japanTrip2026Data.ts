@@ -589,22 +589,89 @@ export const Japan2026TripData: Trip = {
       accommodationIds: ['a_kyoto', 'a_shiga'],
       itinerary: toItinerary({
         locations: [KYOTO, SHIGA],
-        items: [],
+        items: [
+          toItineraryItem({
+            thing: 'Check-Out',
+            time: '10:50',
+            canSearch: false,
+          }),
+          toItineraryItem({
+            thing: 'kyotoStationSkyWalk',
+            isSuggestion: true,
+          }),
+          toItineraryItem({
+            thing: 'Lunch',
+            canSearch: false,
+          }),
+          toItineraryItem({
+            thing: 'Kyoto → Otsu (Ogoto Onsen)',
+            time: '14:12',
+            link: 'https://maps.app.goo.gl/1oP2iRqUJpdNpB9J8',
+            canSearch: false,
+          }),
+          toItineraryItem({
+            thing: 'Shuttle to Hotel',
+            canSearch: false,
+          }),
+          toItineraryItem({
+            thing: 'Check-In, Biwako Ryokusuitei',
+            time: '15:00',
+            canSearch: false,
+          }),
+          toItineraryItem({
+            thing: 'Onsen Hotel (Ryokan)',
+            link: 'https://maps.app.goo.gl/aYdgMi9jx3usSpbMA',
+          }),
+          toItineraryItem({
+            thing: 'Ryokan - Dinner',
+            link: 'https://ryokusuitei.com/en/food/Commitment.html',
+            canSearch: false,
+          })
+        ],
       }),
-      suggestionIds: [
-        'kyotoStationSkyWalk'
-      ]
+      suggestionIds: []
     }),
     [+moment("10/10/2026")]: toDay({
       day: "10/10/2026",
       accommodationIds: ['a_shiga','a_tokyo2'],
       itinerary: toItinerary({
         locations: [SHIGA, TOKYO],
-        items: [],
+        items: [
+          toItineraryItem({
+            thing: 'Ryokan - Breakfast Buffet',
+            time: '7:30 - 9:30',
+            link: 'https://ryokusuitei.com/en/food/Buffet.html',
+            canSearch: false,
+          }),
+          toItineraryItem({
+            thing: 'Check-Out',
+            time: '10:00 (3) | 11:00 (2)',
+            canSearch: false,
+          }),
+          toItineraryItem({
+            thing: 'Otsu (Ogoto Onsen) → Kyoto',
+            time: '11:30 or 11:45',
+            link: 'https://maps.app.goo.gl/oosE1k2pTJuNQCek7',
+            canSearch: false,
+          }),
+          toItineraryItem({
+            thing: 'Shinkansen - Kyoto → Tokyo',
+            time: '13:13 - 15:24',
+            link: 'https://maps.app.goo.gl/Pncct7DWLQfDujjRA',
+          }),
+          toItineraryItem({
+            thing: 'Check-In Airbnb',
+            canSearch: false,
+          }),
+          toItineraryItem({
+            thing: 'Dinner',
+            canSearch: false,
+          }),
+        ],
       }),
       suggestionIds: [
-
-      ]
+        'mintleaf'
+      ],
     }),
     [+moment("10/11/2026")]: toDay({
       day: "10/11/2026",

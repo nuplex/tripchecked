@@ -1,5 +1,5 @@
 import './App.css'
-import {type CSSProperties, type JSX, useState} from "react";
+import {type CSSProperties, type JSX, useEffect, useState} from "react";
 import {
   type Accommodation,
   type AccommodationId,
@@ -38,6 +38,7 @@ const COLOR_SAVED = "#ecc30b";
 const COLOR_ALL_SUGGESTIONS = "#f665a1";
 
 const LOCAL_STORAGE_SAVES = 'saves';
+const LOCAL_STORAGE_REFRESH = 'lastRefresh';
 
 type OnSaveArgs = {
   key: string;
@@ -311,9 +312,28 @@ function isSuggestionSearchable(type: SuggestionType) {
     && type !== 'food'
     && type !== 'drinks'
     && type !== 'lunch'
-} 
+}
 
-function Date({
+function canRefresh(): boolean {
+  console.log('here');
+  const lastRefresh = localStorage.getItem(LOCAL_STORAGE_REFRESH);
+  if (!lastRefresh) {
+    localStorage.setItem(LOCAL_STORAGE_REFRESH, Date.now().toString());
+    return true;
+  }
+
+  const lastM = moment(parseInt(lastRefresh));
+  const lastMAddOneHour = lastM.add(1, 'hours');
+  const isOld =  lastMAddOneHour.isSameOrBefore(moment());
+  if (isOld) {
+    localStorage.setItem(LOCAL_STORAGE_REFRESH, Date.now().toString());
+    return true;
+  }
+
+  return false;
+}
+
+function CalendarDate({
   timestamp,
   format,
   inline,
@@ -361,9 +381,9 @@ function DateRange({
 
   return (
     <div style={style}>
-      <Date timestamp={start} format={startFormat} inline={true} size={size} bold={bold}/>
+      <CalendarDate timestamp={start} format={startFormat} inline={true} size={size} bold={bold}/>
       <span>{joinWith}</span>
-      <Date timestamp={end} format={endFormat} inline={true} size={size} bold={bold}/>
+      <CalendarDate timestamp={end} format={endFormat} inline={true} size={size} bold={bold}/>
     </div>
   );
 }
@@ -808,7 +828,7 @@ function Today({
   return (
     <LabelledElement
       label={<Text text={'Today is '} type={'small_header'}/>}
-      element={<Date timestamp={+today} format={DATE_FORMAT_DOTW_DAY} inline={true} bold={true} size="24px"/>}
+      element={<CalendarDate timestamp={+today} format={DATE_FORMAT_DOTW_DAY} inline={true} bold={true} size="24px"/>}
     />
   );
 }
@@ -1053,6 +1073,10 @@ function Suggestions({
     <div>
       {suggestionIds.map((id, i) => {
         const suggestion = getSgt(id);
+        if (!suggestion) {
+          console.warn(`Cannot find suggestion with id '${id}'`)
+          return null;
+        }
         return (
           <Suggestion key={`sgs${suggestion.id}${i}`} suggestion={suggestion} canSearch={true} forceCanSearch={forceCanSearch}/>
         );
@@ -1185,6 +1209,10 @@ function TodayItinerary({
 
         if (item.isSuggestion) {
           const suggestion = getSgt(item.thing as SuggestionId);
+          if (!suggestion) {
+            console.warn(`Cannot find suggestion with id '${item.thing}'`)
+            return null;
+          }
           return (
             <div key={`i${suggestion.id}`}>
               <Suggestion suggestion={suggestion} time={item.time} canSearch={item.canSearch} moreStyle={lineStyle} onOpenModal={onOpenModal} showOpenModal={true}/>
@@ -1592,6 +1620,14 @@ function Home({
   const [loaded, setLoaded] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [modalDetail, setModalDetail] = useState<Saveable | null>(null);
+
+  useEffect(() => {
+    setInterval(() => {
+      if (canRefresh()) {
+        location.reload();
+      }
+    }, 600000)
+  },)
 
   if (!loaded) {
     const savesRaw = localStorage.getItem(LOCAL_STORAGE_SAVES);
