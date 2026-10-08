@@ -102,7 +102,7 @@ export const Japan2026TripData: Trip = {
       checkInTime: "3:00 PM",
       checkoutTime: "11:00 AM",
       link: 'https://www.airbnb.com/l/vPAETgOm?s=67&unique_share_id=fbf04ccd-cce8-4e9e-b6bf-a4f900656197',
-      mapLink: 'https://goo.gl/maps/jeMTqUCfT9vyvpwv7',
+      mapLink: 'https://maps.app.goo.gl/C93ynfm8uqVG8Yf5A?g_st=ac',
       nearestTransit: 'https://maps.app.goo.gl/1XdbFGx12Tqx9Y4D9',
       nearestTransitName: 'Minowa Station'
     })
