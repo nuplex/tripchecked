@@ -60,6 +60,7 @@ export type IconName =
   | 'saved'
   | 'unsaved'
   | 'shop'
+  | 'openFull'
   | 'logo_GoogleTranslate'
   | 'logo_WhatsApp'
   | 'logo_Splitwise';
@@ -162,6 +163,10 @@ const ICONS: Record<IconName, JSX.Element> = {
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#1f1f1f" viewBox="0 -960 960 960">
       <path d="M223.5-103.5Q200-127 200-160t23.5-56.5T280-240t56.5 23.5T360-160t-23.5 56.5T280-80t-56.5-23.5m400 0Q600-127 600-160t23.5-56.5T680-240t56.5 23.5T760-160t-23.5 56.5T680-80t-56.5-23.5M246-720l96 200h280l110-200zm-38-80h590q23 0 35 20.5t1 41.5L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68-39.5t-2-78.5l54-98-144-304H40v-80h130zm134 280h280z"/>
     </svg>,
+  openFull:
+    <svg xmlns="http://www.w3.org/2000/svg" fill="#1f1f1f" viewBox="0 -960 960 960">
+      <path d="M120-120v-320h80v184l504-504H520v-80h320v320h-80v-184L256-200h184v80z"/>
+    </svg>
 };
 
 function getSgt(id: SuggestionId): Suggestion {
@@ -540,7 +545,7 @@ function Icon({
 }: {
   img: JSX.Element;
   link?: string;
-  onClick?: () => void;
+  onClick?: (args: any) => void;
   shape?: IconShape;
   size?: number;
   color?: string;
@@ -705,6 +710,90 @@ function InlineContainer({
   return <div style={style}>{children}</div>
 }
 
+function ModalContext({
+  onClickBackground,
+  children
+}: {
+  onClickBackground?: () => void;
+  children: any;
+}){
+  const style: CSS = {
+    background: "rgba(61,93,140,0.05)",
+    display: "flex",
+    position: "fixed",
+    width: "100vw",
+    height: "100vh",
+    justifyContent: "center",
+    top: 0,
+    left: 0,
+    zIndex: 2,
+    flexWrap: "wrap",
+    alignContent: "center"
+  };
+
+  return <div style={style} onClick={onClickBackground}>{children}</div>
+}
+
+function DetailModal({
+  detail,
+  onClose,
+  onSave,
+}: {
+  detail: Saveable;
+  onClose: () => void;
+  onSave: (args: any) => void;
+}) {
+  let element;
+  let color = "#333";
+  if ('term' in detail) {
+    const phrase = detail as Phrase;
+    element = <Phrase phrase={phrase} onSave={onSave}/>
+    color = COLOR_PHRASEBOOK_PRIMARY;
+  } else if  ('body' in detail) {
+    const helpBit = detail as HelpBit;
+    let helpParent = getHelpBitParent(helpBit);
+    if (!helpParent) {
+      console.warn('Could not find parent for helpBit ', helpBit.id, '. Defaulting to generic parent.');
+      helpParent = toHelp({
+        bits: [helpBit], color: "#333", name: "Help"
+      });
+    }
+    element = <HelpBitInfo help={helpParent} bit={helpBit} onSave={onSave}/>;
+    color = helpParent.color;
+  } else if ('requiredLevel' in detail) {
+    const suggestion = detail as Suggestion;
+    element = <SuggestionInfo suggestion={suggestion} onSave={onSave}/>
+    color = COLOR_ALL_SUGGESTIONS;
+  } else {
+    // This is an accommodation
+    const accommodation = detail as Accommodation;
+    element = <AccommodationInfo accommodation={accommodation} onSave={onSave}/>
+    color = COLOR_ACCOMMODATION_PRIMARY;
+  }
+
+  const modalContainer: CSS = {
+    background: "white",
+    border: `3px solid ${color ?? '#333'}`,
+    borderRadius: "5px",
+    height: "fit-content",
+    maxHeight: "500px",
+    minWidth: "300px",
+    marginBlock: "2em",
+    marginInline: "6em",
+    overflowY: "scroll",
+    padding: "18px",
+    position: "relative",
+    zIndex: 3,
+  };
+
+  return (
+    <div style={modalContainer}>
+      <Icon img={ICONS.close} onClick={onClose}/>
+      {element}
+    </div>
+  );
+}
+
 function Today({
   shownDay
 }: {
@@ -748,6 +837,13 @@ function AccommodationInfo({
         label={<Text text={'Check-Out at '} fontSize={12}/>}
         element={<Text text={`${accommodation.checkoutTime} on ${moment(accommodation.end).format(DATE_FORMAT_MONTH_DAY)}`} fontSize={12} bold={true}/>}
       />
+      {accommodation.accessNotes ?
+        <LabelledElement
+          label={<Text text={'Access Notes: '} fontSize={12}/>}
+          element={<Text text={accommodation.accessNotes} fontSize={12}/>}
+        />
+        : null
+      }
       <LabelledElement
         label={<Icon img={ICONS.accommodation} link={accommodation.link}/>}
         element={<Text text={accommodation.type === 'airbnb' ? 'See on Airbnb' : 'Open Hotel Website'} link={accommodation.link}/>}
@@ -779,8 +875,10 @@ function AccommodationInfo({
 
 function TodayAccommodation({
   shownDay,
+  onOpenModal,
 }: {
-  shownDay: Day
+  shownDay: Day;
+  onOpenModal: (args: any) => void;
 }) {
   const [showAddress, setShowAddress] = useState(false);
   const toggleAddress = () => {
@@ -789,6 +887,7 @@ function TodayAccommodation({
 
   const itemStyle: CSS = {
     display: "flex",
+    alignContent: "center",
   };
 
   return (
@@ -816,6 +915,8 @@ function TodayAccommodation({
                   <Icon img={ICONS.nearestTransit} link={accommodation.nearestTransit}/>
                 </>
                 : null}
+              <InlineSpace size={6}/>
+              <Icon img={ICONS.openFull} size={22} onClick={() => onOpenModal(accommodation)} moreStyle={{paddingTop: '3px'}}/>
             </div>
             {showAddress ? <Text text={accommodation.address} isBlock={true} type={'info'}/> : null}
           </section>
@@ -891,12 +992,16 @@ function Suggestion({
   canSearch,
   forceCanSearch,
   moreStyle,
+  showOpenModal,
+  onOpenModal,
 }: {
   suggestion: Suggestion;
   time?: string;
   canSearch?: boolean;
   forceCanSearch?: boolean;
   moreStyle?: CSS;
+  showOpenModal?: boolean;
+  onOpenModal?: (args: any) => void;
 }) {
   const [showInfo, setShowInfo] = useState(false);
   const toggleInfo = () => {
@@ -929,7 +1034,8 @@ function Suggestion({
         {searchable ? <Icon img={ICONS.search} link={getSearchLink(suggestion.searchTerm ?? suggestionName)} marginRight={4}/> : null}
         {suggestion.link ? <Icon img={ICONS.link} link={suggestion.link} marginRight={4}/> : null}
         {suggestion.mapLink ? <Icon img={ICONS.mapLink} link={suggestion.mapLink} marginRight={4}/> : null}
-        {suggestion.description ? <Icon img={ICONS.info} onClick={toggleInfo}/> : null}
+        {suggestion.description ? <Icon img={ICONS.info} onClick={toggleInfo} marginRight={4}/> : null}
+        {(showOpenModal && onOpenModal) ? <Icon img={ICONS.openFull} size={18} onClick={() => onOpenModal(suggestion)}/> : null}
       </div>
       {showInfo && suggestion.description ? <Text text={suggestion.description} isBlock={true} type={'info'}/> : null}
     </>
@@ -1046,9 +1152,11 @@ function AllSuggestions({
 }
 
 function TodayItinerary({
-  shownDay
+  shownDay,
+  onOpenModal,
 }: {
   shownDay: Day;
+  onOpenModal: (args: any) => void;
 }) {
   const [showSuggestions, setShowSuggestions] = useState(false);
 
@@ -1074,10 +1182,13 @@ function TodayItinerary({
           minHeight: "30px"
         };
 
+
         if (item.isSuggestion) {
           const suggestion = getSgt(item.thing as SuggestionId);
           return (
-            <Suggestion key={`i${suggestion.id}`} suggestion={suggestion} time={item.time} canSearch={item.canSearch} moreStyle={lineStyle}/>
+            <div key={`i${suggestion.id}`}>
+              <Suggestion suggestion={suggestion} time={item.time} canSearch={item.canSearch} moreStyle={lineStyle} onOpenModal={onOpenModal} showOpenModal={true}/>
+            </div>
           );
         }
 
@@ -1479,6 +1590,8 @@ function Home({
   const [dayIndex, setDayIndex] = useState<number>(getDayIndex(shownDay));
   const [saves, setSaves] = useState();
   const [loaded, setLoaded] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalDetail, setModalDetail] = useState<Saveable | null>(null);
 
   if (!loaded) {
     const savesRaw = localStorage.getItem(LOCAL_STORAGE_SAVES);
@@ -1539,6 +1652,16 @@ function Home({
     setDayIndex(getDayIndex(today));
   };
 
+  const onOpenModal = (detail: Saveable) => {
+    setModalOpen(true);
+    setModalDetail(detail);
+  };
+
+  const onCloseModal = () => {
+    setModalOpen(false);
+    setModalDetail(null);
+  }
+
   const containerStyle: CSS = {
     margin: "1%"
   };
@@ -1548,60 +1671,69 @@ function Home({
   const suggestions = Object.values($TRIP.suggestions);
 
   return (
-    <div style={containerStyle}>
-      <Header text={$TRIP.name} type={'h1'}/>
-      <DateRange
-        start={$TRIP.start}
-        startFormat={DATE_FORMAT_MONTH_DAY}
-        end={$TRIP.end}
-        endFormat={DATE_FORMAT_MONTH_DAY+" YYYY"}
-        joinWith={' - '}
-        size={"14px"}
-      />
-      <Today shownDay={day}/>
-      {dayIndex > 0 ? <Button label={'Previous Day'} type={'nextprev-button'} onClick={onPreviousDay}/> : null}
-      {dayIndex> 0 ? <InlineSpace size={6}/> : null}
-      {!isDayToday(day) ?
-        <>
-          <Button label={'Today'} type={'nextprev-button'} onClick={onGoToToday}/>
-          <InlineSpace size={6}/>
-        </>
+    <>
+      <div style={containerStyle}>
+        <Header text={$TRIP.name} type={'h1'}/>
+        <DateRange
+          start={$TRIP.start}
+          startFormat={DATE_FORMAT_MONTH_DAY}
+          end={$TRIP.end}
+          endFormat={DATE_FORMAT_MONTH_DAY+" YYYY"}
+          joinWith={' - '}
+          size={"14px"}
+        />
+        <Today shownDay={day}/>
+        {dayIndex > 0 ? <Button label={'Previous Day'} type={'nextprev-button'} onClick={onPreviousDay}/> : null}
+        {dayIndex> 0 ? <InlineSpace size={6}/> : null}
+        {!isDayToday(day) ?
+          <>
+            <Button label={'Today'} type={'nextprev-button'} onClick={onGoToToday}/>
+            <InlineSpace size={6}/>
+          </>
+          :
+          null
+        }
+        {dayIndex < daysLength - 1 ? <Button label={'Next Day'} type={'nextprev-button'} onClick={onNextDay}/> : null}
+        <Header text={day.itinerary.locations.join(', ')} type={'h2'}/>
+        <TodayAccommodation shownDay={day} onOpenModal={onOpenModal}/>
+        <TodayItinerary shownDay={day} onOpenModal={onOpenModal}/>
+        <BlockSpace size={12}/>
+        {$TRIP.goto.map((goto, i) => {
+          const space = i < $TRIP.goto.length - 1;
+          return (
+            <InlineContainer key={`${goto.link}`}>
+              <Icon img={ICONS[goto.icon]} subtitle={goto.subheader} link={goto.link} size={60} />
+              {space ? <InlineSpace size={6}/> : null}
+            </InlineContainer>
+          );
+        })}
+        <BlockSpace size={8}/>
+        {saves ? <Saves saves={saves} onUnsave={onSaveItem}/> : null}
+        <section>
+          <Phrasebook phrases={$TRIP.phrasebook} onSave={onSaveItem}/>
+        </section>
+        {$TRIP.help.map((help) => <HelpSection key={help.name} help={help} onSave={onSaveItem}/>)}
+        <AllSuggestions suggestions={suggestions} onSaveItem={onSaveItem}/>
+        <Section name={'All Accommodations'} color={COLOR_ACCOMMODATION_PRIMARY}>
+          {accommodations.map((accommodation, i) => {
+            const divider = i < accommodationsLength - 1;
+            return (
+              <div key={`aa${accommodation.name}${i}`}>
+                <AccommodationInfo accommodation={accommodation} onSave={onSaveItem}/>
+                {divider ? <HorizontalDivider color={COLOR_ACCOMMODATION_PRIMARY} thickness={3}/> : null}
+              </div>
+            );
+          })}
+        </Section>
+      </div>
+      {(modalOpen && modalDetail) ?
+        <ModalContext>
+          <DetailModal detail={modalDetail!} onClose={onCloseModal} onSave={onSaveItem}/>
+        </ModalContext>
         :
         null
       }
-      {dayIndex < daysLength - 1 ? <Button label={'Next Day'} type={'nextprev-button'} onClick={onNextDay}/> : null}
-      <Header text={day.itinerary.locations.join(', ')} type={'h2'}/>
-      <TodayAccommodation shownDay={day}/>
-      <TodayItinerary shownDay={day}/>
-      <BlockSpace size={12}/>
-      {$TRIP.goto.map((goto, i) => {
-        const space = i < $TRIP.goto.length - 1;
-        return (
-          <InlineContainer key={`${goto.link}`}>
-            <Icon img={ICONS[goto.icon]} subtitle={goto.subheader} link={goto.link} size={60} />
-            {space ? <InlineSpace size={6}/> : null}
-          </InlineContainer>
-        );
-      })}
-      <BlockSpace size={8}/>
-      {saves ? <Saves saves={saves} onUnsave={onSaveItem}/> : null}
-      <section>
-        <Phrasebook phrases={$TRIP.phrasebook} onSave={onSaveItem}/>
-      </section>
-      {$TRIP.help.map((help) => <HelpSection key={help.name} help={help} onSave={onSaveItem}/>)}
-      <AllSuggestions suggestions={suggestions} onSaveItem={onSaveItem}/>
-      <Section name={'All Accommodations'} color={COLOR_ACCOMMODATION_PRIMARY}>
-        {accommodations.map((accommodation, i) => {
-          const divider = i < accommodationsLength - 1;
-          return (
-            <div key={`aa${accommodation.name}${i}`}>
-              <AccommodationInfo accommodation={accommodation} onSave={onSaveItem}/>
-              {divider ? <HorizontalDivider color={COLOR_ACCOMMODATION_PRIMARY} thickness={3}/> : null}
-            </div>
-          );
-        })}
-      </Section>
-    </div>
+    </>
   );
 }
 
