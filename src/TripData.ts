@@ -68,6 +68,7 @@ export type Suggestion = {
   mapLink?: string;
   searchTerm?: string;
   tags?: string[];
+  emoji?: string;
 };
 
 export type ItineraryItem = {
@@ -237,6 +238,7 @@ export function toSuggestion({
   mapLink,
   searchTerm,
   tags,
+  emoji,
 }:{
   type: SuggestionType;
   id: string;
@@ -251,6 +253,7 @@ export function toSuggestion({
   mapLink?: string;
   searchTerm?: string;
   tags?: string[];
+  emoji?: string;
 }): Suggestion {
   return {
     type,
@@ -266,6 +269,7 @@ export function toSuggestion({
     mapLink,
     searchTerm,
     tags,
+    emoji,
   };
 }
 

@@ -64,7 +64,8 @@ export type IconName =
   | 'openFull'
   | 'logo_GoogleTranslate'
   | 'logo_WhatsApp'
-  | 'logo_Splitwise';
+  | 'logo_Splitwise'
+  | 'logo_GooglePhotos';
 const ICONS: Record<IconName, JSX.Element> = {
   accommodation:
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#1f1f1f" viewBox="0 -960 960 960">
@@ -110,6 +111,16 @@ const ICONS: Record<IconName, JSX.Element> = {
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#1f1f1f" viewBox="0 -960 960 960">
       <path d="M280-240h320q33 0 56.5-23.5T680-320v-120H200v120q0 33 23.5 56.5T280-240m62.5-57.5Q360-315 360-340t-17.5-42.5T300-400t-42.5 17.5T240-340t17.5 42.5T300-280t42.5-17.5m280 0Q640-315 640-340t-17.5-42.5T580-400t-42.5 17.5T520-340t17.5 42.5T580-280t42.5-17.5M200-80q-17 0-28.5-11.5T160-120v-82q-18-20-29-44.5T120-300v-380q0-83 77-121.5T440-840q26 0 49 .5t44 2.5q-7 19-10 38.5t-3 40.5q-17-1-36.5-1.5T442-760q-87 0-144 10t-80 30h305q4 19 11 39t18 41H200v120h443l117 105v115q0 29-11 53.5T720-202v82q0 17-11.5 28.5T680-80h-40q-17 0-28.5-11.5T600-120v-40H280v40q0 17-11.5 28.5T240-80zm531.5-651.5Q720-743 720-760t11.5-28.5T760-800t28.5 11.5T800-760t-11.5 28.5T760-720t-28.5-11.5m99.5-98q29 30.5 29 73.5 0 32-24.5 70.5T761-600q-51-48-76-86t-25-70q0-43 29-73.5t71-30.5 71 30.5M760-520q81-69 120.5-127.5T920-756q0-68-46.5-116T760-920t-113.5 48T600-756q0 50 39.5 108.5T760-520m-560 80h480zm323-280H218zm237-40"/>
     </svg>,
+  saved: <span style={{color: COLOR_SAVED}}>★</span>,
+  unsaved: <span style={{color: '#333'}}>☆</span>,
+  shop:
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#1f1f1f" viewBox="0 -960 960 960">
+      <path d="M223.5-103.5Q200-127 200-160t23.5-56.5T280-240t56.5 23.5T360-160t-23.5 56.5T280-80t-56.5-23.5m400 0Q600-127 600-160t23.5-56.5T680-240t56.5 23.5T760-160t-23.5 56.5T680-80t-56.5-23.5M246-720l96 200h280l110-200zm-38-80h590q23 0 35 20.5t1 41.5L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68-39.5t-2-78.5l54-98-144-304H40v-80h130zm134 280h280z"/>
+    </svg>,
+  openFull:
+    <svg xmlns="http://www.w3.org/2000/svg" fill="#1f1f1f" viewBox="0 -960 960 960">
+      <path d="M120-120v-320h80v184l504-504H520v-80h320v320h-80v-184L256-200h184v80z"/>
+    </svg>,
   logo_GoogleTranslate:
     <svg xmlns="http://www.w3.org/2000/svg" xmlSpace="preserve" viewBox="0 0 998.1 998.3">
       <path fill="#dbdbdb" d="M931.7 998.3c36.5 0 66.4-29.4 66.4-65.4V265.8c0-36-29.9-65.4-66.4-65.4H283.6l260.1 797.9z"/>
@@ -130,7 +141,7 @@ const ICONS: Record<IconName, JSX.Element> = {
       <path fill="url(#b)" d="M931.7 200.4H518.8L454.4 0h-388C29.9 0 0 29.9 0 66.5v677c0 36.5 29.9 66.4 66.4 66.4h415.9l61.4 188.4h388c36.5 0 66.4-29.4 66.4-65.4V265.8c0-36-29.9-65.4-66.4-65.4"/>
     </svg>,
   logo_WhatsApp:
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 175.216 175.552">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 175.216 175.552" style={{marginTop: "-9px"}}>
       <defs>
         <linearGradient id="linearGradient1780" x1="85.915" x2="86.535" y1="32.567" y2="137.092" gradientUnits="userSpaceOnUse">
           <stop offset="0" stopColor="#57d163"/>
@@ -147,7 +158,7 @@ const ICONS: Record<IconName, JSX.Element> = {
       <path fill="#fff" fillRule="evenodd" d="M68.772 55.603c-1.378-3.061-2.828-3.123-4.137-3.176l-3.524-.043c-1.226 0-3.218.46-4.902 2.3s-6.435 6.287-6.435 15.332 6.588 17.785 7.506 19.013 12.718 20.381 31.405 27.75c15.529 6.124 18.689 4.906 22.061 4.6s10.877-4.447 12.408-8.74 1.532-7.971 1.073-8.74-1.685-1.226-3.525-2.146-10.877-5.367-12.562-5.981-2.91-.919-4.137.921-4.746 5.979-5.819 7.206-2.144 1.381-3.984.462-7.76-2.861-14.784-9.124c-5.465-4.873-9.154-10.891-10.228-12.73s-.114-2.835.808-3.751c.825-.824 1.838-2.147 2.759-3.22s1.224-1.84 1.836-3.065.307-2.301-.153-3.22-4.032-10.011-5.666-13.647"/>
     </svg>,
   logo_Splitwise:
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 106 106">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 106 106" style={{marginTop: "3px"}}>
       <g fill="none" fillRule="evenodd">
         <path fill="#fff" d="M96.593 99.345H9.408V31.773L53 6.605l43.593 25.168z"/>
         <path stroke="#fff" strokeWidth="12" d="M96.593 99.834H9.408V32.262L53 7.094l43.593 25.168z"/>
@@ -158,16 +169,18 @@ const ICONS: Record<IconName, JSX.Element> = {
         <path fill="#fff" d="M24.127 76.204a77 77 0 0 1-2.626-.69c-3.97-1.13-6.835-2.524-6.835-5.45 0-2.528 2.094-3.9 6.211-3.9 3.377 0 7.06 1.661 9.955 3.964l11.33-6.543c-4.306-4.723-10.858-9.121-21.213-9.121-4.756 0-8.908.925-12.205 2.702V84.06c3.775 1.902 8.28 2.91 12.205 3.916 5.272 1.3 9.534 2.6 9.534 5.995 0 3.323-3.323 4.622-7.728 4.622-5.561 0-10.834-2.96-14.011-8.09v9.77h34.132c1.16-2.289 1.69-4.797 1.69-7.314 0-11.989-11.7-14.662-20.439-16.755"/>
       </g>
     </svg>,
-  saved: <span style={{color: COLOR_SAVED}}>★</span>,
-  unsaved: <span style={{color: '#333'}}>☆</span>,
-  shop:
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#1f1f1f" viewBox="0 -960 960 960">
-      <path d="M223.5-103.5Q200-127 200-160t23.5-56.5T280-240t56.5 23.5T360-160t-23.5 56.5T280-80t-56.5-23.5m400 0Q600-127 600-160t23.5-56.5T680-240t56.5 23.5T760-160t-23.5 56.5T680-80t-56.5-23.5M246-720l96 200h280l110-200zm-38-80h590q23 0 35 20.5t1 41.5L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68-39.5t-2-78.5l54-98-144-304H40v-80h130zm134 280h280z"/>
+  logo_GooglePhotos:
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 59 59" style={{marginTop: "-10px"}}>
+      <g fill="none" fillRule="evenodd">
+        <path d="M-3-3h64v64H-3z"/>
+        <g fillRule="nonzero">
+          <path fill="#fbbc04" d="M14.75 13.41c8.146 0 14.75 6.603 14.75 14.75v1.34H1.34C.6 29.5 0 28.9 0 28.16c0-8.147 6.604-14.75 14.75-14.75"/>
+          <path fill="#ea4335" d="M45.59 14.75c0 8.146-6.603 14.75-14.75 14.75H29.5V1.34C29.5.6 30.1 0 30.84 0c8.147 0 14.75 6.604 14.75 14.75"/>
+          <path fill="#4285f4" d="M44.25 45.59c-8.146 0-14.75-6.603-14.75-14.75V29.5h28.16c.74 0 1.34.6 1.34 1.34 0 8.147-6.604 14.75-14.75 14.75"/>
+          <path fill="#34a853" d="M13.41 44.25c0-8.146 6.603-14.75 14.75-14.75h1.34v28.16c0 .74-.6 1.34-1.34 1.34-8.147 0-14.75-6.604-14.75-14.75"/>
+        </g>
+      </g>
     </svg>,
-  openFull:
-    <svg xmlns="http://www.w3.org/2000/svg" fill="#1f1f1f" viewBox="0 -960 960 960">
-      <path d="M120-120v-320h80v184l504-504H520v-80h320v320h-80v-184L256-200h184v80z"/>
-    </svg>
 };
 
 function getSgt(id: SuggestionId): Suggestion {
@@ -273,6 +286,12 @@ function getAllSuggestionsFilter(suggestions: Suggestion[]) {
     if (s.where && !filters.includes(s.where)) filters.push(s.where);
     if (s.type && !filters.includes(s.type)) filters.push(s.type);
     if (!filters.includes(s.requiredLevel)) filters.push(s.requiredLevel);
+
+    if (s.tags && s.tags.length > 0) {
+      s.tags.forEach((tag) => {
+        if (!filters.includes(tag)) filters.push(tag);
+      });
+    }
   });
   return filters;
 }
@@ -331,6 +350,68 @@ function canRefresh(): boolean {
   }
 
   return false;
+}
+
+function dummyUpdateSaves() {
+  // Updates all saves regardless of if they need to be.
+  // TODO smart save; only update what differs.
+
+  const savesRaw = localStorage.getItem(LOCAL_STORAGE_SAVES);
+  if (!savesRaw) {
+    return;
+  }
+
+  const saves: Record<string, Saveable> = JSON.parse(savesRaw!);
+
+  const newSaves = Object.values(saves).map((saveable: Saveable) => {
+    if ('term' in saveable) {
+      const phrase = saveable as Phrase;
+      const basePhrase = $TRIP.phrasebook.find((p) => p.term === phrase.term);
+      if (!basePhrase) {
+        // Unknown
+        console.warn(`Attempting to update unknown saved phrase with term  '${phrase.term}'`);
+        return phrase;
+      }
+
+      return basePhrase;
+    } else if  ('body' in saveable) {
+      const helpBit = saveable as HelpBit;
+      let baseHelpBit: HelpBit | undefined;
+      $TRIP.help.find((helpParent) => {
+        const found = helpParent.bits.find((bit) =>  bit.id === helpBit.id);
+        if (found) {
+          baseHelpBit = helpBit;
+        }
+      });
+
+      if (baseHelpBit) {
+        return baseHelpBit;
+      }
+      console.warn(`Attempting to update unknown help bit save with id '${helpBit.id}'`);
+      return helpBit;
+    } else if ('requiredLevel' in saveable) {
+      const suggestion = saveable as Suggestion;
+      const baseSgg = getSgt(suggestion.id);
+      if (!baseSgg) {
+        // Unknown
+        console.warn(`Attempting to update unknown suggestion save with id '${suggestion.id}'`);
+        return suggestion;
+      }
+      return baseSgg;
+    } else {
+      // This is an accommodation
+      const accommodation = saveable as Accommodation;
+      const baseAcc = getAcc(accommodation.id);
+      if (!baseAcc) {
+        // Unknown
+        console.warn(`Attempting to update unknown accommodation save with id '${accommodation.id}'`);
+        return accommodation;
+      }
+      return baseAcc;
+    }
+  });
+
+  localStorage.setItem(LOCAL_STORAGE_SAVES, JSON.stringify(newSaves));
 }
 
 function CalendarDate({
@@ -734,7 +815,7 @@ function ModalContext({
   onClickBackground,
   children
 }: {
-  onClickBackground?: () => void;
+  onClickBackground?: (args: any) => void;
   children: any;
 }){
   const style: CSS = {
@@ -958,7 +1039,7 @@ function SuggestionInfo({
   return (
     <div>
       <Header text={suggestion.name} type={'h3'}/>
-      <Text text={getEmojiForSuggestionType(suggestion.type)} fontSize={16}/>
+      <Text text={suggestion.emoji ?? getEmojiForSuggestionType(suggestion.type)} fontSize={16}/>
       {suggestion.description ? <InlineSpace size={4}/> : null}
       {suggestion.description ? <Text text={suggestion.description} fontSize={16}/> : null}
       {suggestion.where ? <Text text={suggestion.where} fontSize={14} isBlock={true}/> : null}
@@ -1028,7 +1109,7 @@ function Suggestion({
     setShowInfo(!showInfo);
   };
 
-  const suggestionName = `${getEmojiForSuggestionType(suggestion.type)} ${suggestion.name}`;
+  const suggestionName = `${suggestion.emoji ?? getEmojiForSuggestionType(suggestion.type)} ${suggestion.name}`;
 
 
   const style: CSS = {
@@ -1620,6 +1701,12 @@ function Home({
   const [loaded, setLoaded] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [modalDetail, setModalDetail] = useState<Saveable | null>(null);
+  const [updatedSaves, setUpdatedSaves] = useState(false);
+
+  if (!updatedSaves) {
+    dummyUpdateSaves();
+    setUpdatedSaves(true);
+  }
 
   useEffect(() => {
     setInterval(() => {
@@ -1763,7 +1850,7 @@ function Home({
         </Section>
       </div>
       {(modalOpen && modalDetail) ?
-        <ModalContext>
+        <ModalContext onClickBackground={(e) => {onCloseModal(); e.stopPropagation();}}>
           <DetailModal detail={modalDetail!} onClose={onCloseModal} onSave={onSaveItem}/>
         </ModalContext>
         :

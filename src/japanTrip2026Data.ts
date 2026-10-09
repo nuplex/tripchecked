@@ -25,6 +25,11 @@ export const Japan2026TripData: Trip = {
   end: +moment("10/14/2026"),
   goto: [
     toGoTo({
+      icon: 'logo_GooglePhotos',
+      link: 'https://photos.app.goo.gl/k25dP8hsb2r3WiaR7',
+      subheader: 'Upload & See Photos'
+    }),
+    toGoTo({
       icon: 'logo_GoogleTranslate',
       link: 'https://translate.google.com/?sl=en&tl=ja&op=translate',
       subheader: 'Google Translate'
@@ -38,7 +43,7 @@ export const Japan2026TripData: Trip = {
       icon: 'logo_Splitwise',
       link: 'https://www.splitwise.com/join/Wp5Fje9z1pM+55amc?v=e',
       subheader: 'Splitwise'
-    })
+    }),
   ],
   accommodations: {
     a_tokyo1: toAccommodation({
@@ -115,7 +120,8 @@ export const Japan2026TripData: Trip = {
       description: 'Teishoku restaurant',
       where: 'Katsuhika-ku',
       mapLink: 'https://maps.app.goo.gl/5xKfzJ3oC2PDrQ9Z6',
-      requiredLevel: REQUIRED_LEVEL_TEXT["8"]
+      requiredLevel: REQUIRED_LEVEL_TEXT["8"],
+      tags: [TOKYO]
     }),
     mintleaf: toSuggestion({
       type: 'drinks',
@@ -124,7 +130,8 @@ export const Japan2026TripData: Trip = {
       description: 'A bar serving dozens of different mojitos.',
       where: 'Roppongi',
       mapLink: 'https://maps.app.goo.gl/eDWscDNWmVrENzuE8',
-      requiredLevel: REQUIRED_LEVEL_TEXT["4"]
+      requiredLevel: REQUIRED_LEVEL_TEXT["4"],
+      tags: [TOKYO]
     }),
     michinori: toSuggestion({
       type: 'dinner',
@@ -132,7 +139,8 @@ export const Japan2026TripData: Trip = {
       name: 'michinori',
       where: 'Shibuya',
       mapLink: 'https://maps.app.goo.gl/fT5g2nPicvyxXJxK6',
-      requiredLevel: REQUIRED_LEVEL_TEXT["0"]
+      requiredLevel: REQUIRED_LEVEL_TEXT["0"],
+      tags: [TOKYO]
     }),
     unagiEbisu: toSuggestion({
       type: 'dinner',
@@ -141,7 +149,8 @@ export const Japan2026TripData: Trip = {
       description: 'Unagi (Eel) Restaurant on a High Floor',
       where: 'Ebisu',
       mapLink: 'https://maps.app.goo.gl/HceziawAgLLMSBFT8',
-      requiredLevel: REQUIRED_LEVEL_TEXT["0"]
+      requiredLevel: REQUIRED_LEVEL_TEXT["0"],
+      tags: [TOKYO]
     }),
     yasakaPagoda: toSuggestion({
       type: 'place',
@@ -166,7 +175,8 @@ export const Japan2026TripData: Trip = {
       description: 'Restaurant serving Thai-Japanese curry rice.',
       where: 'Kyoto-Kawaramachi',
       mapLink: 'https://maps.app.goo.gl/N1KaQmQhX4aSn59BA',
-      requiredLevel: REQUIRED_LEVEL_TEXT["0"]
+      requiredLevel: REQUIRED_LEVEL_TEXT["0"],
+      tags: [KYOTO]
     }),
     teramachi: toSuggestion({
       type: 'place',
@@ -175,14 +185,15 @@ export const Japan2026TripData: Trip = {
       description: `Lagre covered shopping arcade in Kyoto's shopping district`,
       where: 'Kyoto-Kawaramachi',
       mapLink: 'https://maps.app.goo.gl/tWV3KJ2KHs4eTLVRA',
-      requiredLevel: REQUIRED_LEVEL_TEXT["0"]
+      requiredLevel: REQUIRED_LEVEL_TEXT["0"],
+      tags: [KYOTO]
     }),
     goldenTemple: toSuggestion({
       type: 'temple',
       id: 'goldenTemple',
       name: 'Kinkaku-ji (Golden Temple)',
       description: 'A temple said to have a gold shine.',
-      where: 'Kyoto',
+      where: KYOTO,
       mapLink: 'https://maps.app.goo.gl/5XS453BHfdcLRNLp6',
       requiredLevel: REQUIRED_LEVEL_TEXT["2"]
     }),
@@ -238,7 +249,8 @@ export const Japan2026TripData: Trip = {
       description: 'A temple within Nara Park, offering panaramic views of Nara and its valley. Great for sunset.',
       where: 'Nara Park',
       mapLink: 'https://maps.app.goo.gl/wJnBbrCYJykBcQN58',
-      requiredLevel: REQUIRED_LEVEL_TEXT["3"]
+      requiredLevel: REQUIRED_LEVEL_TEXT["3"],
+      tags: [NARA],
     }),
     veganRamenNara: toSuggestion({
       type: 'restaurant',
@@ -246,7 +258,8 @@ export const Japan2026TripData: Trip = {
       name: 'Vegan Friendly Ramen by Playpen Friends',
       where: 'Nara Park',
       mapLink: 'https://maps.app.goo.gl/MtHXhNFfz48KX4R76',
-      requiredLevel: REQUIRED_LEVEL_TEXT["0"]
+      requiredLevel: REQUIRED_LEVEL_TEXT["0"],
+      tags: [NARA],
     }),
     kyotoStationSkyWalk: toSuggestion({
       type: 'place',
@@ -277,18 +290,20 @@ export const Japan2026TripData: Trip = {
       type: 'park',
       id: 'tennojiPark',
       name: 'Tennoji Park',
-      where: OSAKA,
+      where: 'Tennoji',
       mapLink: 'https://maps.app.goo.gl/goqTup5sxKNucrAB8',
-      requiredLevel: REQUIRED_LEVEL_TEXT["3"]
+      requiredLevel: REQUIRED_LEVEL_TEXT["3"],
+      tags: [OSAKA],
     }),
     tsutenkaku: toSuggestion({
       type: 'tower',
       id: 'tsutenkaku',
       name: 'Tsutentaku',
       description: 'Retro tower located in the center of an old-style district.',
-      where: OSAKA,
+      where: 'Shinsekai',
       mapLink: 'https://maps.app.goo.gl/qM6wTQQTqzmVjPZ97',
-      requiredLevel: REQUIRED_LEVEL_TEXT["3"]
+      requiredLevel: REQUIRED_LEVEL_TEXT["3"],
+      tags: [OSAKA],
     }),
     dotonbori: toSuggestion({
       type: 'place',
@@ -304,10 +319,11 @@ export const Japan2026TripData: Trip = {
       id: 'umedaSkyBuilding',
       name: 'Umeda Sky Building',
       description: 'Unique building with an unbeatable view of Osaka and the wider Kansai region.',
-      where: OSAKA,
+      where: 'Umeda',
       link: 'https://www.skybldg.co.jp/en/',
       mapLink: 'https://maps.app.goo.gl/6sh6z5FBofhWhS7U7',
-      requiredLevel: REQUIRED_LEVEL_TEXT["2"]
+      requiredLevel: REQUIRED_LEVEL_TEXT["2"],
+      tags: [OSAKA],
     }),
     dennys: toSuggestion({
       id: 'dennys',
@@ -337,6 +353,14 @@ export const Japan2026TripData: Trip = {
       name: "Have some sushi in Japan!",
       requiredLevel: REQUIRED_LEVEL_TEXT["1"],
       searchTerm: 'What is Sushi',
+    }),
+    eatTonkatsu: toSuggestion({
+      id: "eatTonkatsu",
+      type: 'food',
+      name: "Have some Tonkatsu in Japan!",
+      description: "Tonkatsu is breaded and fried cutlet, typically pork, but sometimes chicken. Tokatsu restaurants often have shrimp fry as well.",
+      requiredLevel: REQUIRED_LEVEL_TEXT["1"],
+      searchTerm: 'What is Tonkatsu',
     }),
     eatTakoyaki: toSuggestion({
       id: "eatTakoyaki",
@@ -570,10 +594,6 @@ export const Japan2026TripData: Trip = {
             isSuggestion: true,
           }),
           toItineraryItem({
-            thing: 'Dinner',
-            canSearch: false,
-          }),
-          toItineraryItem({
             thing: 'Osaka → Kyoto',
             canSearch: false,
           })
@@ -670,7 +690,8 @@ export const Japan2026TripData: Trip = {
         ],
       }),
       suggestionIds: [
-        'mintleaf'
+        'mintleaf',
+        'dennys',
       ],
     }),
     [+moment("10/11/2026")]: toDay({
@@ -814,8 +835,8 @@ export const Japan2026TripData: Trip = {
             'Talking on metro/subway trains is okay, but keep it very low volume.',
             'Talking on the Shinkansen is completely fine.',
             '',
-            'Eating on metro/subway trains is never okay. Drinking sips of a bottled drink is okay sometimes.',
-            'Eating and drinking on the Shinkansen, and some commuter/long distance trains is okay.',
+            'Eating on metro/subway trains is almost never okay. Drinking sips of a bottled drink is okay sometimes.',
+            'Eating and drinking on the Shinkansen, and some commuter/long distance trains (seating is in rows) is okay.',
             '',
             `Mind your space. Keep your legs together and don't spread your arms out into other's space.`
           ],
@@ -1033,6 +1054,14 @@ export const Japan2026TripData: Trip = {
       tags: ['service'],
       notes: [],
       nativeScript: 'ゴミ'
+    }),
+    toPhrase({
+      term: 'mochikaeri',
+      translated: ['take-out'],
+      pronunciation: ['moh-chee-kah-ay-ree'],
+      tags: ['service'],
+      notes: [],
+      nativeScript: '持ち帰り'
     }),
   ],
 };
