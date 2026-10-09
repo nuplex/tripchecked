@@ -334,7 +334,6 @@ function isSuggestionSearchable(type: SuggestionType) {
 }
 
 function canRefresh(): boolean {
-  console.log('here');
   const lastRefresh = localStorage.getItem(LOCAL_STORAGE_REFRESH);
   if (!lastRefresh) {
     localStorage.setItem(LOCAL_STORAGE_REFRESH, Date.now().toString());
@@ -363,17 +362,19 @@ function dummyUpdateSaves() {
 
   const saves: Record<string, Saveable> = JSON.parse(savesRaw!);
 
-  const newSaves = Object.values(saves).map((saveable: Saveable) => {
+  const newSaves: Record<string, Saveable> = {};
+
+  Object.values(saves).forEach((saveable: Saveable) => {
     if ('term' in saveable) {
       const phrase = saveable as Phrase;
       const basePhrase = $TRIP.phrasebook.find((p) => p.term === phrase.term);
       if (!basePhrase) {
         // Unknown
         console.warn(`Attempting to update unknown saved phrase with term  '${phrase.term}'`);
-        return phrase;
+        newSaves[phrase.term] = phrase;
+      } else {
+        newSaves[basePhrase.term] = basePhrase;
       }
-
-      return basePhrase;
     } else if  ('body' in saveable) {
       const helpBit = saveable as HelpBit;
       let baseHelpBit: HelpBit | undefined;
@@ -385,9 +386,11 @@ function dummyUpdateSaves() {
       });
 
       if (baseHelpBit) {
-        return baseHelpBit;
+        newSaves[baseHelpBit.id] = baseHelpBit;
+      } else {
+        console.warn(`Attempting to update unknown help bit save with id '${helpBit.id}'`);
+        newSaves[helpBit.id] = helpBit;
       }
-      console.warn(`Attempting to update unknown help bit save with id '${helpBit.id}'`);
       return helpBit;
     } else if ('requiredLevel' in saveable) {
       const suggestion = saveable as Suggestion;
@@ -395,19 +398,22 @@ function dummyUpdateSaves() {
       if (!baseSgg) {
         // Unknown
         console.warn(`Attempting to update unknown suggestion save with id '${suggestion.id}'`);
-        return suggestion;
+        newSaves[suggestion.id] = suggestion;
       }
-      return baseSgg;
-    } else {
+      newSaves[baseSgg.id] = baseSgg;
+    } else if ('address' in saveable) {
       // This is an accommodation
       const accommodation = saveable as Accommodation;
       const baseAcc = getAcc(accommodation.id);
       if (!baseAcc) {
-        // Unknown
+        // Unknown, remove via non-addition
         console.warn(`Attempting to update unknown accommodation save with id '${accommodation.id}'`);
-        return accommodation;
+        newSaves[accommodation.id] = accommodation;
       }
-      return baseAcc;
+      newSaves[baseAcc.id] = baseAcc;
+    } else {
+      // This is likely an invalid saved object.
+      console.info(`Invalid save object not updated, will be removed.`);
     }
   });
 
