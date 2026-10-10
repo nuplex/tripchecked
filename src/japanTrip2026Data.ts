@@ -384,6 +384,14 @@ export const Japan2026TripData: Trip = {
       name: "Ueno Park",
       requiredLevel: REQUIRED_LEVEL_TEXT["3"],
       mapLink: "https://maps.app.goo.gl/uhaoLod1U4cxAvWP7"
+    }),
+    roppongi: toSuggestion({
+      id: "roppongi",
+      type: "place",
+      name: "Roppongi",
+      description: `Roppongi is one of Tokyo's main nightlife districts; full of bars, clubs, and shopping.`,
+      requiredLevel: REQUIRED_LEVEL_TEXT["5"],
+      mapLink: "https://maps.app.goo.gl/DJFjQLcu1DrE3wHZ9",
     })
   },
   days: {
@@ -691,7 +699,7 @@ export const Japan2026TripData: Trip = {
             canSearch: false,
           }),
           toItineraryItem({
-            thing: 'uenoPark',
+            thing: 'roppongi',
             isSuggestion: true,
           }),
           toItineraryItem({
@@ -710,7 +718,12 @@ export const Japan2026TripData: Trip = {
       accommodationIds: ['a_tokyo2'],
       itinerary: toItinerary({
         locations: [TOKYO],
-        items: [],
+        items: [
+          toItineraryItem({
+            thing: 'uenoPark',
+            isSuggestion: true,
+          }),
+        ],
       }),
       suggestionIds: [
 
