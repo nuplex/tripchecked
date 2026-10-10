@@ -378,6 +378,13 @@ export const Japan2026TripData: Trip = {
       requiredLevel: REQUIRED_LEVEL_TEXT["3"],
       searchTerm: 'What is Okonomiyaki',
     }),
+    uenoPark: toSuggestion({
+      id: "uenoPark",
+      type: 'park',
+      name: "Ueno Park",
+      requiredLevel: REQUIRED_LEVEL_TEXT["3"],
+      mapLink: "https://maps.app.goo.gl/uhaoLod1U4cxAvWP7"
+    })
   },
   days: {
     [+moment("10/3/2026")]: toDay({
@@ -682,6 +689,10 @@ export const Japan2026TripData: Trip = {
           toItineraryItem({
             thing: 'Check-In Airbnb',
             canSearch: false,
+          }),
+          toItineraryItem({
+            thing: 'uenoPark',
+            isSuggestion: true,
           }),
           toItineraryItem({
             thing: 'Dinner',
