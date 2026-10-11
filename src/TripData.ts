@@ -50,7 +50,7 @@ export const REQUIRED_LEVEL_TEXT: Record<RequiredLevelNumber, RequiredLevel> = {
   8: `Missed, Won't Try Again`,
 };
 
-export type SuggestionType = 'food' | 'restaurant' | 'lunch' | 'dinner' | 'breakfast' | 'cafe' | 'shopping' | 'place' | 'park' | 'temple' | 'drinks' | 'experience' | 'tower' | 'neighborhood' | 'other';
+export type SuggestionType = 'food' | 'restaurant' | 'lunch' | 'dinner' | 'breakfast' | 'cafe' | 'shopping' | 'place' | 'park' | 'temple' | 'drinks' | 'experience' | 'tower' | 'neighborhood' | 'market' | 'other';
 
 export type SuggestionId = string;
 
@@ -76,6 +76,7 @@ export type ItineraryItem = {
   isSuggestion: boolean;
   thing: string | Suggestion;
   canSearch: boolean;
+  searchTerm?: string;
   link?: string;
 };
 
@@ -328,12 +329,14 @@ export function toItineraryItem({
   thing,
   isSuggestion = false,
   canSearch = true,
+  searchTerm,
   link,
 }:{
   time?: string;
   thing: string | SuggestionId;
   isSuggestion?: boolean;
   canSearch?: boolean;
+  searchTerm?: string;
   link?: string;
 }): ItineraryItem {
   return {
@@ -341,6 +344,7 @@ export function toItineraryItem({
     isSuggestion,
     thing,
     canSearch,
+    searchTerm,
     link,
   };
 }

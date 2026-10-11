@@ -382,8 +382,10 @@ export const Japan2026TripData: Trip = {
       id: "uenoPark",
       type: 'park',
       name: "Ueno Park",
+      where: "Ueno",
       requiredLevel: REQUIRED_LEVEL_TEXT["3"],
-      mapLink: "https://maps.app.goo.gl/uhaoLod1U4cxAvWP7"
+      mapLink: "https://maps.app.goo.gl/uhaoLod1U4cxAvWP7",
+      tags: [TOKYO],
     }),
     roppongi: toSuggestion({
       id: "roppongi",
@@ -392,6 +394,8 @@ export const Japan2026TripData: Trip = {
       description: `Roppongi is one of Tokyo's main nightlife districts; full of bars, clubs, and shopping.`,
       requiredLevel: REQUIRED_LEVEL_TEXT["5"],
       mapLink: "https://maps.app.goo.gl/DJFjQLcu1DrE3wHZ9",
+      where: "Roppongi",
+      tags: [TOKYO],
     }),
     odaiba: toSuggestion({
       id: "odaiba",
@@ -399,7 +403,9 @@ export const Japan2026TripData: Trip = {
       name: "Odaiba",
       description: "Tokyo's island and bay distract facing Rainbow Bridge.",
       requiredLevel: REQUIRED_LEVEL_TEXT["3"],
-      mapLink: "https://maps.app.goo.gl/MHSwLekQqPFa4ssE9"
+      mapLink: "https://maps.app.goo.gl/MHSwLekQqPFa4ssE9",
+      where: "Odaiba",
+      tags: [TOKYO],
     }),
     akiba: toSuggestion({
       id: "akiba",
@@ -408,7 +414,121 @@ export const Japan2026TripData: Trip = {
       description: "Tokyo's electric and special interest district, full of hobbyist goods and unique cafes",
       requiredLevel: REQUIRED_LEVEL_TEXT["1"],
       mapLink: "https://maps.app.goo.gl/2x4Qyfv5e7qERcen7",
-    })
+      where: "Akihabara",
+      tags: [TOKYO],
+    }),
+    myCurryUeno: toSuggestion({
+      id: 'myCurryUeno',
+      type: 'lunch',
+      name: "My Curry Shokudo Ueno",
+      requiredLevel: REQUIRED_LEVEL_TEXT["0"],
+      mapLink: "https://maps.app.goo.gl/6FpwKus1sWgapPAM8",
+      where: "Ueno",
+      tags: [TOKYO],
+    }),
+    hamarikyu: toSuggestion({
+      id: "hamarikyu",
+      type: "park",
+      name: "Hamarikyu Gardens",
+      requiredLevel: REQUIRED_LEVEL_TEXT["2"],
+      mapLink: "https://maps.app.goo.gl/y7HTgc9JCFTdvghb8",
+      where: "Shiodome",
+      tags: [TOKYO],
+    }),
+    tsukiji: toSuggestion({
+      id: "tsukiji",
+      type: "market",
+      name: "Tsukiji Fish Market",
+      requiredLevel: REQUIRED_LEVEL_TEXT["5"],
+      mapLink: "https://maps.app.goo.gl/ikS1ZJ8S9Kujtzys9",
+      where: "Tsukiji",
+      tags: [TOKYO],
+    }),
+    zojoji: toSuggestion({
+      id: "zojoji",
+      type: "temple",
+      name: "Zojo-ji",
+      requiredLevel: REQUIRED_LEVEL_TEXT["6"],
+      mapLink: "https://maps.app.goo.gl/3Fw5kReKmmeA2Htr6",
+      where: "Minato-ku",
+      tags: [TOKYO],
+    }),
+    tokyoTower: toSuggestion({
+      id: "tokyoTower",
+      type: "tower",
+      name: "Tokyo Tower",
+      requiredLevel: REQUIRED_LEVEL_TEXT["2"],
+      mapLink: "https://maps.app.goo.gl/8Zj1nL9j2ErzaRjo7",
+      where: "Minato-ku",
+      tags: [TOKYO],
+    }),
+    shimokitazawa: toSuggestion({
+      id: "shimokitazawa",
+      type: "neighborhood",
+      name: "Shimokitazawa",
+      requiredLevel: REQUIRED_LEVEL_TEXT["5"],
+      mapLink: "https://maps.app.goo.gl/8hTPcaX3xVqrFcTL6",
+      where: "Shimakitazawa",
+      tags: [TOKYO],
+    }),
+    yanakaGinza: toSuggestion({
+      id: "yanakaGinza",
+      type: "place",
+      name: "Yanaka Gizna",
+      description: "Old-style shopping street in a quieter Tokyo neighborhood.",
+      requiredLevel: REQUIRED_LEVEL_TEXT["5"],
+      mapLink: "https://maps.app.goo.gl/dFC7gReQbJYe9BUy5",
+      where: "Yanaka",
+      tags: [TOKYO],
+    }),
+    shinjuku: toSuggestion({
+      id: "shinjuku",
+      type: "neighborhood",
+      name: "Shinjuku",
+      description: "Tokyo's bustling business district, full of izakaya's (small, <10 seat, bars) and drinking spots.",
+      requiredLevel: REQUIRED_LEVEL_TEXT["1"],
+      mapLink: "https://maps.app.goo.gl/c9874xaSPfwhKv5V8",
+      where: "Shinjuku",
+      tags: [TOKYO],
+    }),
+    tokyoDome: toSuggestion({
+      id: "tokyoDome",
+      type: "park",
+      name: "Tokyo Dome",
+      requiredLevel: REQUIRED_LEVEL_TEXT["3"],
+      mapLink: "https://maps.app.goo.gl/amgCREWPdi7bfAyaA",
+      where: "Bunkyo City",
+      tags: [TOKYO],
+    }),
+    imperialPalace: toSuggestion({
+      id: "imperialPalace",
+      type: "park",
+      name: "Imperial Palace & Gardens",
+      requiredLevel: REQUIRED_LEVEL_TEXT["3"],
+      mapLink: "https://maps.app.goo.gl/SZQVbhRh4p16yGcW8",
+      where: "Minato-ku",
+      tags: [TOKYO],
+    }),
+    ginza: toSuggestion({
+      id: "ginza",
+      type: "neighborhood",
+      name: "Ginza",
+      description: "Tokyo's upscale shopping district.",
+      requiredLevel: REQUIRED_LEVEL_TEXT["1"],
+      mapLink: "https://maps.app.goo.gl/idYTzU6NM1WmkYvv6",
+      where: "Ginza",
+      tags: [TOKYO],
+    }),
+    tokyoSkyTree: toSuggestion({
+      id: "tokyoSkyTree",
+      type: "tower",
+      name: "Tokyo Sky Tree",
+      requiredLevel: REQUIRED_LEVEL_TEXT["1"],
+      link: "https://www.tokyo-skytree.jp/",
+      mapLink: "https://maps.app.goo.gl/5nxajML5QiEGtLA39",
+      where: "Sumida-ku",
+      tags: [TOKYO],
+    }),
   },
   days: {
     [+moment("10/3/2026")]: toDay({
@@ -740,16 +860,12 @@ export const Japan2026TripData: Trip = {
             isSuggestion: true,
           }),
           toItineraryItem({
-            thing: 'Lunch',
-            canSearch: false
+            thing: 'myCurryUeno',
+            isSuggestion: true
           }),
           toItineraryItem({
             thing: 'odaiba',
             isSuggestion: true,
-          }),
-          toItineraryItem({
-            thing: 'Dinner',
-            canSearch: false
           }),
         ],
       }),
@@ -762,10 +878,51 @@ export const Japan2026TripData: Trip = {
       accommodationIds: ['a_tokyo2'],
       itinerary: toItinerary({
         locations: [TOKYO],
-        items: [],
+        items: [
+          toItineraryItem({
+            thing: 'tsukiji',
+            isSuggestion: true
+          }),
+          toItineraryItem({
+            thing: 'hamarikyu',
+            isSuggestion: true
+          }),
+          toItineraryItem({
+            thing: 'zojoji',
+            isSuggestion: true
+          }),
+          toItineraryItem({
+            thing: 'tokyoTower',
+            isSuggestion: true
+          }),
+          toItineraryItem({
+            thing: 'tokyoStation',
+            isSuggestion: true,
+          }),
+          toItineraryItem({
+            thing: 'imperialPalace',
+            isSuggestion: true,
+          }),
+          toItineraryItem({
+            thing: 'Eat Food',
+            canSearch: false,
+          }),
+          toItineraryItem({
+            thing: 'yanakaGinza',
+            isSuggestion: true,
+          }),
+          toItineraryItem({
+            thing: 'Free Time / Shopping',
+            canSearch: false,
+          }),
+          toItineraryItem({
+            thing: 'Dinner',
+            canSearch: false,
+          }),
+        ],
       }),
       suggestionIds: [
-
+        'eatTonkatsu',
       ]
     }),
     [+moment("10/13/2026")]: toDay({
@@ -773,10 +930,38 @@ export const Japan2026TripData: Trip = {
       accommodationIds: ['a_tokyo2'],
       itinerary: toItinerary({
         locations: [TOKYO],
-        items: [],
+        items: [
+          toItineraryItem({
+            thing: 'tokyoSkyTree',
+            isSuggestion: true,
+          }),
+          toItineraryItem({
+            thing: 'Lunch',
+          }),
+          toItineraryItem({
+            thing: 'tokyoDome',
+            isSuggestion: true,
+          }),
+          toItineraryItem({
+            thing: 'ginza',
+            isSuggestion: true,
+          }),
+          toItineraryItem({
+            thing: 'Shopping / Free Time',
+            canSearch: false,
+          }),
+          toItineraryItem({
+            thing: 'shinjuku',
+            isSuggestion: true,
+          }),
+          toItineraryItem({
+            thing: 'Dinner',
+          })
+        ],
       }),
       suggestionIds: [
-
+        'eatOkonomiyaki',
+        'eatTonkatsu'
       ]
     }),
     [+moment("10/14/2026")]: toDay({
@@ -784,7 +969,24 @@ export const Japan2026TripData: Trip = {
       accommodationIds: ['a_tokyo2'],
       itinerary: toItinerary({
         locations: [TOKYO],
-        items: [],
+        items: [
+          toItineraryItem({
+            thing: 'Check-Out 11:00 AM',
+            canSearch: false,
+          }),
+          toItineraryItem({
+            thing: 'Lunch',
+            canSearch: false,
+          }),
+          toItineraryItem({
+            thing: 'Minowa → Narita Terminal 1 [Skyliner, ¥2,760]',
+            link: 'https://maps.app.goo.gl/NnZSnAyGsSspeSoe6',
+          }),
+          toItineraryItem({
+            thing: 'Bye!',
+            canSearch: false,
+          }),
+        ],
       }),
       suggestionIds: [
 
@@ -1040,7 +1242,7 @@ export const Japan2026TripData: Trip = {
       translated: ['okay; to be okay'],
       pronunciation: ['dah-ee-joh-boo'],
       tags: ['essential'],
-      notes: [`You can use this just like English 'okay'!`, `For example, you can say it to mean something is/you are literally okay, or to politely decline something, or to say "(yes) it's okay"/"(no) I'm okay" in response to something.`],
+      notes: [`Add "desu" to make this polite. You can use this just like English 'okay'!`, `For example, you can say it to mean something is/you are literally okay, or to politely decline something, or to say "(yes) it's okay"/"(no) I'm okay" in response to something.`],
       nativeScript: '大丈夫'
     }),
     toPhrase({
@@ -1052,20 +1254,20 @@ export const Japan2026TripData: Trip = {
       nativeScript: 'ふくろ'
     }),
     toPhrase({
-      term: 'atatame',
-      translated: ['warm up'],
-      pronunciation: ['ah-tah-tah-may'],
-      tags: ['service'],
-      notes: [`You might be asked this at checkout in a store. They are asking if you want your prepared food microwaved.`],
-      nativeScript: 'あたため'
-    }),
-    toPhrase({
       term: 'toire',
       translated: ['toilet, restroom'],
       pronunciation: ['toh-ee-ray'],
       tags: ['help'],
       notes: [],
       nativeScript: 'トイレ'
+    }),
+    toPhrase({
+      term: 'douzo',
+      translated: ['after you; go ahead; here you go'],
+      pronunciation: ['doh-zoh'],
+      tags: ['essential'],
+      notes: [],
+      nativeScript: 'どうぞ'
     }),
     toPhrase({
       term: 'eigo',
@@ -1114,6 +1316,14 @@ export const Japan2026TripData: Trip = {
       tags: ['service'],
       notes: [],
       nativeScript: '持ち帰り'
+    }),
+    toPhrase({
+      term: 'atatame',
+      translated: ['warm up'],
+      pronunciation: ['ah-tah-tah-may'],
+      tags: ['service'],
+      notes: [`You might be asked this at checkout in a store. They are asking if you want your prepared food microwaved.`],
+      nativeScript: 'あたため'
     }),
   ],
 };

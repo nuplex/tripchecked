@@ -221,6 +221,8 @@ function getEmojiForSuggestionType(type: SuggestionType): string {
       return '🗼';
     case "neighborhood":
       return '🏙️';
+    case "market":
+      return '🛒';
     case "other":
     default:
       return '';
@@ -1316,7 +1318,7 @@ function TodayItinerary({
               <InlineSpace size={4}/>
               {item.time ? <Text text={item.time} type={'time'}/> : null}
             </InlineContainer>
-            {item.canSearch ? <Icon img={ICONS.search} link={getSearchLink(item.thing as string)} marginRight={4}/> : null}
+            {item.canSearch ? <Icon img={ICONS.search} link={getSearchLink(item.searchTerm ?? item.thing as string)} marginRight={4}/> : null}
             {item.link ? <Icon img={ICONS.link} link={item.link} marginRight={4}/> : null}
           </div>
         );
