@@ -387,11 +387,27 @@ export const Japan2026TripData: Trip = {
     }),
     roppongi: toSuggestion({
       id: "roppongi",
-      type: "place",
+      type: "neighborhood",
       name: "Roppongi",
       description: `Roppongi is one of Tokyo's main nightlife districts; full of bars, clubs, and shopping.`,
       requiredLevel: REQUIRED_LEVEL_TEXT["5"],
       mapLink: "https://maps.app.goo.gl/DJFjQLcu1DrE3wHZ9",
+    }),
+    odaiba: toSuggestion({
+      id: "odaiba",
+      type: "place",
+      name: "Odaiba",
+      description: "Tokyo's island and bay distract facing Rainbow Bridge.",
+      requiredLevel: REQUIRED_LEVEL_TEXT["3"],
+      mapLink: "https://maps.app.goo.gl/MHSwLekQqPFa4ssE9"
+    }),
+    akiba: toSuggestion({
+      id: "akiba",
+      type: "neighborhood",
+      name: "Akihabara",
+      description: "Tokyo's electric and special interest district, full of hobbyist goods and unique cafes",
+      requiredLevel: REQUIRED_LEVEL_TEXT["1"],
+      mapLink: "https://maps.app.goo.gl/2x4Qyfv5e7qERcen7",
     })
   },
   days: {
@@ -723,10 +739,22 @@ export const Japan2026TripData: Trip = {
             thing: 'uenoPark',
             isSuggestion: true,
           }),
+          toItineraryItem({
+            thing: 'Lunch',
+            canSearch: false
+          }),
+          toItineraryItem({
+            thing: 'odaiba',
+            isSuggestion: true,
+          }),
+          toItineraryItem({
+            thing: 'Dinner',
+            canSearch: false
+          }),
         ],
       }),
       suggestionIds: [
-
+        'akiba'
       ]
     }),
     [+moment("10/12/2026")]: toDay({

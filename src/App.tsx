@@ -219,6 +219,8 @@ function getEmojiForSuggestionType(type: SuggestionType): string {
       return '⛩️'
     case "tower":
       return '🗼';
+    case "neighborhood":
+      return '🏙️';
     case "other":
     default:
       return '';
