@@ -925,7 +925,7 @@ export const Japan2026TripData: Trip = {
         ],
       }),
       suggestionIds: [
-        'eatOkonomiyaki' 
+        'eatOkonomiyaki',
         'eatTonkatsu',
         'eatParfait'
       ]
