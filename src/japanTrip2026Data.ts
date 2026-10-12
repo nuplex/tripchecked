@@ -337,21 +337,21 @@ export const Japan2026TripData: Trip = {
       id: "eatRamen",
       type: 'food',
       name: "Have some ramen!",
-      requiredLevel: REQUIRED_LEVEL_TEXT["1"],
+      requiredLevel: REQUIRED_LEVEL_TEXT["0"],
       searchTerm: 'What is Ramen',
     }),
     eatJapaneseCurry: toSuggestion({
       id: "eatJapaneseCurry",
       type: 'food',
       name: "Have some Japanese curry!",
-      requiredLevel: REQUIRED_LEVEL_TEXT["1"],
+      requiredLevel: REQUIRED_LEVEL_TEXT["0"],
       searchTerm: 'What is Japanese Curry',
     }),
     eatSushi: toSuggestion({
       id: "eatSushi",
       type: 'food',
       name: "Have some sushi in Japan!",
-      requiredLevel: REQUIRED_LEVEL_TEXT["1"],
+      requiredLevel: REQUIRED_LEVEL_TEXT["0"],
       searchTerm: 'What is Sushi',
     }),
     eatTonkatsu: toSuggestion({
@@ -367,7 +367,7 @@ export const Japan2026TripData: Trip = {
       type: 'food',
       name: "Have some Takoyaki!",
       description: "Takoyaki is a fried ball of dough, usually containing octopus. It varies by region in Japan, from a fully bready texture to somewhat runny. Tako is 'octopus', Yaki is 'fried'",
-      requiredLevel: REQUIRED_LEVEL_TEXT["3"],
+      requiredLevel: REQUIRED_LEVEL_TEXT["0"],
       searchTerm: 'What is Takoyaki'
     }),
     eatOkonomiyaki: toSuggestion({
@@ -375,7 +375,15 @@ export const Japan2026TripData: Trip = {
       type: 'food',
       name: "Have some Okonomiyaki!",
       description: "Okonomiyaki is a cooked on flat-top grill, with the basic components of batter and cabbage, and then your choice of bean sprouts, meat, fish, and other options, and then finally topped off with Japanese mayo and okonomiyaki sauce.",
-      requiredLevel: REQUIRED_LEVEL_TEXT["3"],
+      requiredLevel: REQUIRED_LEVEL_TEXT["0"],
+      searchTerm: 'What is Okonomiyaki',
+    }),
+    eatParfait: toSuggestion({
+      id: "eatParfait",
+      type: 'food',
+      name: "Have a Japanese Parfait!",
+      description: "Japan has a unique parfait culture! Intricate and tasty, with different layers of sweets.",
+      requiredLevel: REQUIRED_LEVEL_TEXT["0"],
       searchTerm: 'What is Okonomiyaki',
     }),
     uenoPark: toSuggestion({
