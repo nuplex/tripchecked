@@ -896,6 +896,9 @@ export const Japan2026TripData: Trip = {
             isSuggestion: true
           }),
           toItineraryItem({
+            thing: 'Teppanyaki Kanro Hamamatsucho',
+          }),
+          toItineraryItem({
             thing: 'zojoji',
             isSuggestion: true
           }),
@@ -912,24 +915,17 @@ export const Japan2026TripData: Trip = {
             isSuggestion: true,
           }),
           toItineraryItem({
-            thing: 'Eat Food',
-            canSearch: false,
-          }),
-          toItineraryItem({
-            thing: 'yanakaGinza',
-            isSuggestion: true,
-          }),
-          toItineraryItem({
             thing: 'Free Time / Shopping',
             canSearch: false,
           }),
           toItineraryItem({
-            thing: 'Dinner',
+            thing: 'Eat food',
             canSearch: false,
           }),
         ],
       }),
       suggestionIds: [
+        'eatOkonomiyaki' 
         'eatTonkatsu',
         'eatParfait'
       ]
@@ -972,7 +968,8 @@ export const Japan2026TripData: Trip = {
       }),
       suggestionIds: [
         'eatTonkatsu',
-        'eatParfait'
+        'eatParfait',
+        'yanakaGinza'
       ]
     }),
     [+moment("10/14/2026")]: toDay({
