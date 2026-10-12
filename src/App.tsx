@@ -297,6 +297,9 @@ function getAllSuggestionsFilter(suggestions: Suggestion[]) {
       });
     }
   });
+
+  filters.sort((f1, f2) => f1.localeCompare(f2));
+
   return filters;
 }
 
