@@ -474,7 +474,7 @@ export const Japan2026TripData: Trip = {
     yanakaGinza: toSuggestion({
       id: "yanakaGinza",
       type: "place",
-      name: "Yanaka Gizna",
+      name: "Yanaka Ginza",
       description: "Old-style shopping street in a quieter Tokyo neighborhood.",
       requiredLevel: REQUIRED_LEVEL_TEXT["5"],
       mapLink: "https://maps.app.goo.gl/dFC7gReQbJYe9BUy5",
