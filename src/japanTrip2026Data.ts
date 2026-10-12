@@ -907,11 +907,11 @@ export const Japan2026TripData: Trip = {
             isSuggestion: true
           }),
           toItineraryItem({
-            thing: 'tokyoStation',
+            thing: 'imperialPalace',
             isSuggestion: true,
           }),
           toItineraryItem({
-            thing: 'imperialPalace',
+            thing: 'tokyoStation',
             isSuggestion: true,
           }),
           toItineraryItem({
