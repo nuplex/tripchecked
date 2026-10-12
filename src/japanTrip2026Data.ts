@@ -937,6 +937,7 @@ export const Japan2026TripData: Trip = {
           }),
           toItineraryItem({
             thing: 'Lunch',
+            canSearch: false,
           }),
           toItineraryItem({
             thing: 'tokyoDome',
@@ -956,6 +957,7 @@ export const Japan2026TripData: Trip = {
           }),
           toItineraryItem({
             thing: 'Dinner',
+            canSearch: false,
           })
         ],
       }),
