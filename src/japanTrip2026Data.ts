@@ -931,6 +931,7 @@ export const Japan2026TripData: Trip = {
       }),
       suggestionIds: [
         'eatTonkatsu',
+        'eatParfait'
       ]
     }),
     [+moment("10/13/2026")]: toDay({
@@ -970,8 +971,8 @@ export const Japan2026TripData: Trip = {
         ],
       }),
       suggestionIds: [
-        'eatOkonomiyaki',
-        'eatTonkatsu'
+        'eatTonkatsu',
+        'eatParfait'
       ]
     }),
     [+moment("10/14/2026")]: toDay({
