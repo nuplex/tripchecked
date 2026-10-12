@@ -289,7 +289,6 @@ function getAllSuggestionsFilter(suggestions: Suggestion[]) {
   suggestions.forEach((s) => {
     if (s.where && !filters.includes(s.where)) filters.push(s.where);
     if (s.type && !filters.includes(s.type)) filters.push(s.type);
-    if (!filters.includes(s.requiredLevel)) filters.push(s.requiredLevel);
 
     if (s.tags && s.tags.length > 0) {
       s.tags.forEach((tag) => {
@@ -297,8 +296,11 @@ function getAllSuggestionsFilter(suggestions: Suggestion[]) {
       });
     }
   });
-
   filters.sort((f1, f2) => f1.localeCompare(f2));
+
+  suggestions.forEach((s) => {
+    if (!filters.includes(s.requiredLevel)) filters.push(s.requiredLevel);
+  });
 
   return filters;
 }
