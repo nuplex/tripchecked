@@ -39,11 +39,6 @@ export const Japan2026TripData: Trip = {
       link: 'https://chat.whatsapp.com/IClKGJcwclgLJlD3IkY3BZ',
       subheader: 'WhatsApp Group'
     }),
-    toGoTo({
-      icon: 'logo_Splitwise',
-      link: 'https://www.splitwise.com/join/Wp5Fje9z1pM+55amc?v=e',
-      subheader: 'Splitwise'
-    }),
   ],
   accommodations: {
     a_tokyo1: toAccommodation({
