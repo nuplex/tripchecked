@@ -937,16 +937,16 @@ export const Japan2026TripData: Trip = {
         locations: [TOKYO],
         items: [
           toItineraryItem({
+            thing: 'tokyoDome',
+            isSuggestion: true,
+          }),
+          toItineraryItem({
             thing: 'tokyoSkyTree',
             isSuggestion: true,
           }),
           toItineraryItem({
             thing: 'Lunch',
             canSearch: false,
-          }),
-          toItineraryItem({
-            thing: 'tokyoDome',
-            isSuggestion: true,
           }),
           toItineraryItem({
             thing: 'ginza',
