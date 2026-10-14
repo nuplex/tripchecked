@@ -39,6 +39,11 @@ export const Japan2026TripData: Trip = {
       link: 'https://chat.whatsapp.com/IClKGJcwclgLJlD3IkY3BZ',
       subheader: 'WhatsApp Group'
     }),
+    toGoTo({
+      icon: 'receipt',
+      link: 'https://docs.google.com/spreadsheets/d/1uXnLh8MGoAWT6_o898vRNl4zilth-UPcFmAg4ThR93Q/edit?gid=825321910#gid=825321910?usp=sharing',
+      subheader: 'See What You Owe'
+    })
   ],
   accommodations: {
     a_tokyo1: toAccommodation({
